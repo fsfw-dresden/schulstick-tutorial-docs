@@ -11,7 +11,7 @@
       {
         devShell = pkgs.mkShell {
           buildInputs = with pkgs; [
-            python3_11
+            python3
           ];
           LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
         };
