@@ -23,7 +23,8 @@ Depends: ${python3:Depends},
          python3-yaml,
          python3-pillow,
          python3-platformdirs,
-         nodejs
+         nodejs,
+         nginx
 Description: Educational portal app for IT competency development
  An interactive educational portal integrated into the Schulstick platform,
  designed to facilitate IT competency through interactive learning with
