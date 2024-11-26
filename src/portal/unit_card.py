@@ -31,6 +31,8 @@ class UnitCard(QFrame):
                 padding: 2px 6px;
                 margin: 0 2px;
                 text-overflow: ellipsis;
+                overflow: hidden;
+                white-space: nowrap;
             }
             QLabel#skill {
                 color: #b0b0b0;
