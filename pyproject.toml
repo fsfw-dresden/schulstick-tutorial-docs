@@ -10,7 +10,9 @@ dependencies = [
     "platformdirs>=4.1.0",
     "qt-material",
     "setuptools",  # For pkg_resources
-    "requests>=2.31.0"
+    "requests>=2.31.0",
+    "fuzzywuzzy>=0.18.0",
+    "python-Levenshtein>=0.21.1"
 ]
 
 [build-system]

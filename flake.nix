@@ -19,6 +19,8 @@
           setuptools  # Provides pkg_resources
           requests
           pyyaml
+          fuzzywuzzy
+          python-Levenshtein
         ] ++ [ pkgs.qt5.qttools ]; # Adds lrelease and other Qt tools
         
         commonPropagatedBuildInputs = [];
