@@ -30,9 +30,6 @@ class UnitCard(QFrame):
                 border-radius: 4px;
                 padding: 2px 6px;
                 margin: 0 2px;
-                text-overflow: ellipsis;
-                overflow: hidden;
-                white-space: nowrap;
             }
             QLabel#skill {
                 color: #b0b0b0;
@@ -67,10 +64,10 @@ class UnitCard(QFrame):
         # Add star icons using the same theme as StarRating
         for i in range(5):
             star_label = QLabel()
-            star_label.setFixedSize(16, 16)
+            star_label.setFixedSize(24, 24)  # Larger size for better visibility
             icon_name = "starred-symbolic" if i < self.unit.skill_level else "non-starred-symbolic"
             star_icon = QIcon.fromTheme(icon_name)
-            star_label.setPixmap(star_icon.pixmap(16, 16))
+            star_label.setPixmap(star_icon.pixmap(24, 24))  # Scale pixmap to match size
             skill_layout.addWidget(star_label)
         
         skill_layout.addStretch()
