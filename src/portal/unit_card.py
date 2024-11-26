@@ -64,14 +64,12 @@ class UnitCard(QFrame):
         skill_label.setObjectName("skill")
         skill_layout.addWidget(skill_label)
         
-        # Add star icons
+        # Add star icons using the same theme as StarRating
         for i in range(5):
             star_label = QLabel()
             star_label.setFixedSize(16, 16)
-            if i < self.unit.skill_level:
-                star_icon = QIcon.fromTheme("starred")
-            else:
-                star_icon = QIcon.fromTheme("non-starred")
+            icon_name = "starred-symbolic" if i < self.unit.skill_level else "non-starred-symbolic"
+            star_icon = QIcon.fromTheme(icon_name)
             star_label.setPixmap(star_icon.pixmap(16, 16))
             skill_layout.addWidget(star_label)
         
