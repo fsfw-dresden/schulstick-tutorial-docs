@@ -10,20 +10,29 @@ class UnitCard(QFrame):
         self.unit = unit
         self.setFrameStyle(QFrame.StyledPanel | QFrame.Raised)
         self.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
+        self.setFixedSize(300, 350)  # Set fixed size for all cards
         self.setStyleSheet("""
             QFrame {
-                background-color: white;
+                background-color: #2d2d2d;
                 border-radius: 8px;
-                padding: 8px;
+                padding: 12px;
+                border: 1px solid #3d3d3d;
             }
             QLabel#title {
                 font-size: 16px;
                 font-weight: bold;
+                color: white;
+                margin-top: 8px;
             }
             QLabel#tag {
-                background-color: #e0e0e0;
+                background-color: #454545;
+                color: #e0e0e0;
                 border-radius: 4px;
                 padding: 2px 6px;
+            }
+            QLabel#skill {
+                color: #b0b0b0;
+                margin: 4px 0;
             }
         """)
         
@@ -35,7 +44,7 @@ class UnitCard(QFrame):
         # Preview image
         preview = QLabel()
         pixmap = QPixmap(str(self.unit.preview_path))
-        preview.setPixmap(pixmap.scaled(200, 120, Qt.KeepAspectRatio, Qt.SmoothTransformation))
+        preview.setPixmap(pixmap.scaled(276, 180, Qt.KeepAspectRatio, Qt.SmoothTransformation))
         preview.setAlignment(Qt.AlignCenter)
         layout.addWidget(preview)
         
@@ -47,6 +56,7 @@ class UnitCard(QFrame):
         
         # Skill level
         skill_info = QLabel(f"Skill Level: {self.unit.skill_level}/5")
+        skill_info.setObjectName("skill")
         layout.addWidget(skill_info)
         
         # Tags

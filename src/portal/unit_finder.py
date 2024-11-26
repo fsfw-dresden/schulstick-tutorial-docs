@@ -40,7 +40,8 @@ class UnitFinderWidget(QWidget):
         # Container for cards
         self.cards_container = QWidget()
         self.cards_layout = QGridLayout(self.cards_container)
-        self.cards_layout.setSpacing(16)
+        self.cards_layout.setSpacing(24)
+        self.cards_layout.setContentsMargins(24, 24, 24, 24)
         scroll.setWidget(self.cards_container)
         
         layout.addWidget(scroll)
