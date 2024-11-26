@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import (QMainWindow, QWidget, QToolBar,
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QIcon
 from welcome.wizard import WelcomeWizard
-from portal.content import ContentWidget
+from portal.unit_finder import UnitFinderWidget
 
 def tr(text: str) -> str:
     """Helper function for translations"""
@@ -46,8 +46,8 @@ class PortalWindow(QMainWindow):
         settings_action = QAction(QIcon.fromTheme("preferences-system"), tr("Settings"), self)
         toolbar.addAction(settings_action)
         
-        # Add content widget
-        self.content = ContentWidget()
+        # Add unit finder widget
+        self.content = UnitFinderWidget()
         layout.addWidget(self.content)
         
     def show_wizard(self):
