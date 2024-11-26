@@ -13,7 +13,7 @@ from core.preferences import Preferences
 from vision_assistant.vision import HighlightOverlay
 from vision_assistant.tutor import TutorView
 from PyQt5.QtCore import Qt, QPropertyAnimation, QEasingCurve, QRect
-from PyQt5.QtGui import (QPainter, QPainterPath, QColor, QIcon)
+from PyQt5.QtGui import (QPainter, QPainterPath, QColor, QIcon, QMovie, QPixmap)
 
 os.environ['QT_LOGGING_RULES'] = '*.debug=false;qt.qpa.*=false;qt.*=false;*.warning=false'
 
@@ -67,12 +67,19 @@ class CircularWindow(QWidget):
         self.setGeometry(self.circular_geometry)
         
         # Add background animation for circular view
-        self.movie = Assets.load_movie('cloud.webp')
+        try:
+            self.movie = Assets.load_movie('cloud.webp')
+        except Exception as e:
+            self.movie = QMovie()
+            self.movie.setFileName('')  # Empty movie acts as black background
         self.movie.frameChanged.connect(self.repaint)
         self.movie.start()
         
         # Load static background for expanded view
-        self.night_bg = Assets.load_pixmap('night.jpg')
+        try:
+            self.night_bg = Assets.load_pixmap('night.jpg')
+        except Exception:
+            self.night_bg = QPixmap()
         
         # Add search input
         self.search_input = QLineEdit(self)
