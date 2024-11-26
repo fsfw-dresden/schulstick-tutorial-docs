@@ -1,7 +1,7 @@
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel, 
                             QHBoxLayout, QFrame, QSizePolicy)
 from PyQt5.QtCore import Qt
-from PyQt5.QtGui import QPixmap
+from PyQt5.QtGui import QPixmap, QIcon
 from core.unit_scanner import UnitMetadata
 
 class UnitCard(QFrame):
@@ -29,6 +29,8 @@ class UnitCard(QFrame):
                 color: #e0e0e0;
                 border-radius: 4px;
                 padding: 2px 6px;
+                margin: 0 2px;
+                text-overflow: ellipsis;
             }
             QLabel#skill {
                 color: #b0b0b0;
@@ -54,16 +56,34 @@ class UnitCard(QFrame):
         title.setWordWrap(True)
         layout.addWidget(title)
         
-        # Skill level
-        skill_info = QLabel(f"Skill Level: {self.unit.skill_level}/5")
-        skill_info.setObjectName("skill")
-        layout.addWidget(skill_info)
+        # Skill level with stars
+        skill_layout = QHBoxLayout()
+        skill_label = QLabel("Skill Level:")
+        skill_label.setObjectName("skill")
+        skill_layout.addWidget(skill_label)
         
-        # Tags
+        # Add star icons
+        for i in range(5):
+            star_label = QLabel()
+            star_label.setFixedSize(16, 16)
+            if i < self.unit.skill_level:
+                star_icon = QIcon.fromTheme("starred")
+            else:
+                star_icon = QIcon.fromTheme("non-starred")
+            star_label.setPixmap(star_icon.pixmap(16, 16))
+            skill_layout.addWidget(star_label)
+        
+        skill_layout.addStretch()
+        layout.addLayout(skill_layout)
+        
+        # Tags with fixed width
         tags_layout = QHBoxLayout()
+        tags_layout.setSpacing(8)
         for tag in self.unit.tags[:3]:  # Show first 3 tags
             tag_label = QLabel(tag)
             tag_label.setObjectName("tag")
+            tag_label.setFixedWidth(90)  # Fixed width for tags
+            tag_label.setAlignment(Qt.AlignCenter)
             tags_layout.addWidget(tag_label)
         tags_layout.addStretch()
         layout.addLayout(tags_layout)
