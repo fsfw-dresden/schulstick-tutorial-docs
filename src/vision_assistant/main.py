@@ -6,7 +6,7 @@ from urllib.parse import urljoin
 from urllib.parse import urljoin
 import base64
 from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QLineEdit,
-                            QMenu, QAction)
+                            QMenu, QAction, QSystemTrayIcon)
 from PyQt5.QtCore import QBuffer, QByteArray
 from core.assets import Assets
 from core.preferences import Preferences
@@ -43,7 +43,7 @@ class CircularWindow(QWidget):
             self.logger.error(f"Failed to create API session: {e}")
             self.session_id = None
         # Remove window decorations and make window stay on top
-        self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
+        self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint | Qt.Tool)
         # Enable transparency
         self.setAttribute(Qt.WA_TranslucentBackground)
         
@@ -62,6 +62,39 @@ class CircularWindow(QWidget):
         self.logger = logging.getLogger(__name__)
         
         self.initUI()
+        self.setup_tray_icon()
+        
+    def setup_tray_icon(self):
+        """Initialize system tray icon"""
+        self.tray_icon = QSystemTrayIcon(self)
+        self.tray_icon.setIcon(QIcon.fromTheme("applications-education"))
+        
+        # Create tray menu
+        tray_menu = QMenu()
+        show_action = QAction("Show", self)
+        hide_action = QAction("Hide", self)
+        quit_action = QAction("Quit", self)
+        
+        show_action.triggered.connect(self.show_from_tray)
+        hide_action.triggered.connect(self.hide_to_tray)
+        quit_action.triggered.connect(QApplication.quit)
+        
+        tray_menu.addAction(show_action)
+        tray_menu.addAction(hide_action)
+        tray_menu.addSeparator()
+        tray_menu.addAction(quit_action)
+        
+        self.tray_icon.setContextMenu(tray_menu)
+        self.tray_icon.show()
+        
+    def show_from_tray(self):
+        """Show window from system tray"""
+        self.show()
+        self.activateWindow()
+        
+    def hide_to_tray(self):
+        """Hide window to system tray"""
+        self.hide()
         
     def initUI(self):
         self.setGeometry(self.circular_geometry)
@@ -292,8 +325,8 @@ class CircularWindow(QWidget):
     
     def closeEvent(self, event):
         """Handle window close event"""
-        self.cleanup_session()
-        super().closeEvent(event)
+        event.ignore()
+        self.hide_to_tray()
             
     def analyze_screenshot(self):
         question = self.search_input.text()
