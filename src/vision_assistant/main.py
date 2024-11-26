@@ -237,6 +237,11 @@ class CircularWindow(QWidget):
         tutor_action.triggered.connect(self.show_tutor)
         menu.addAction(tutor_action)
         
+        # Launch portal action
+        portal_action = QAction(QIcon.fromTheme("applications-education"), "Open Portal", self)
+        portal_action.triggered.connect(self.launch_portal)
+        menu.addAction(portal_action)
+        
         # Add separator
         menu.addSeparator()
         
@@ -310,6 +315,10 @@ class CircularWindow(QWidget):
         if not self.tutor_view:
             self.tutor_view = TutorView()
         self.tutor_view.show()
+        
+    def launch_portal(self):
+        """Launch the portal application"""
+        QApplication.instance().startDetached("portal")
     
     def cleanup_session(self):
         """Clean up API session on close"""
