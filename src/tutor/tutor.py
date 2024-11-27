@@ -5,7 +5,8 @@ from PyQt5.QtWidgets import (QWidget, QPushButton, QApplication, QVBoxLayout,
 from PyQt5.QtCore import Qt, QPropertyAnimation, QEasingCurve, QRect, QUrl, QSize
 from PyQt5.QtWebEngineCore import QWebEngineUrlRequestInterceptor
 from PyQt5.QtGui import QPainter, QColor, QIcon
-from PyQt5.QtWebEngineWidgets import QWebEngineView
+from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebChannel
+import json
 from pathlib import Path
 from typing import Optional, Tuple
 from core.models import ViewMode, DockPosition, ScreenHint, UnitMetadata
@@ -59,7 +60,45 @@ class TutorView(QWidget):
         # Set up URL change monitoring
         self.web_view.urlChanged.connect(self.on_url_changed)
         self.web_view.loadFinished.connect(self.on_load_finished)
-
+        
+        # Inject JavaScript to monitor navigation
+        js_code = """
+        (function() {
+            let lastUrl = window.location.href;
+            const observer = new MutationObserver(function() {
+                if (lastUrl !== window.location.href) {
+                    lastUrl = window.location.href;
+                    window.qt.webChannelTransport.send(
+                        JSON.stringify({
+                            'type': 'urlChanged',
+                            'url': lastUrl
+                        })
+                    );
+                }
+            });
+            observer.observe(document, {subtree: true, childList: true});
+            
+            // Monitor hash changes
+            window.addEventListener('hashchange', function() {
+                window.qt.webChannelTransport.send(
+                    JSON.stringify({
+                        'type': 'urlChanged',
+                        'url': window.location.href
+                    })
+                );
+            });
+        })();
+        """
+        
+        # Create web channel to receive JavaScript messages
+        self.channel = QWebChannel()
+        self.web_view.page().setWebChannel(self.channel)
+        
+        # Add JavaScript injection after page loads
+        self.web_view.loadFinished.connect(
+            lambda ok: self.web_view.page().runJavaScript(js_code) if ok else None
+        )
+        
         self.web_view.page().setBackgroundColor(Qt.transparent)
         self.web_view.setContextMenuPolicy(Qt.CustomContextMenu)
         self.web_view.customContextMenuRequested.connect(self.show_web_context_menu)
@@ -282,5 +321,19 @@ class TutorView(QWidget):
         """Handle page load completion"""
         if success:
             self.logger.info(f"Page loaded successfully: {self.current_url.toString()}")
+            # Get the actual URL after any redirects
+            self.web_view.page().runJavaScript(
+                "window.location.href",
+                lambda result: self.logger.info(f"Final URL after load: {result}")
+            )
         else:
             self.logger.error(f"Failed to load page: {self.current_url.toString()}")
+            
+    def handle_js_message(self, message):
+        """Handle messages from injected JavaScript"""
+        try:
+            data = json.loads(message)
+            if data['type'] == 'urlChanged':
+                self.logger.info(f"JavaScript detected URL change: {data['url']}")
+        except Exception as e:
+            self.logger.error(f"Error handling JavaScript message: {e}")
