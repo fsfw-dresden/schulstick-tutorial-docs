@@ -3,12 +3,15 @@ from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QLabel,
 from PyQt5.QtCore import Qt
 from PyQt5.QtGui import QPixmap, QIcon
 from core.unit_scanner import UnitMetadata
+from tutor.tutor import TutorView
 
 class UnitCard(QFrame):
     def __init__(self, unit: UnitMetadata, parent=None):
         super().__init__(parent)
         self.unit = unit
         self.setFrameStyle(QFrame.StyledPanel | QFrame.Raised)
+        self.setCursor(Qt.PointingHandCursor)
+        self.tutor_view = None
         self.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Fixed)
         self.setFixedSize(300, 350)  # Set fixed size for all cards
         self.setStyleSheet("""
@@ -84,3 +87,9 @@ class UnitCard(QFrame):
             tags_layout.addWidget(tag_label)
         tags_layout.addStretch()
         layout.addLayout(tags_layout)
+        
+    def mousePressEvent(self, event):
+        if event.button() == Qt.LeftButton:
+            if not self.tutor_view:
+                self.tutor_view = TutorView(self.unit.tutorial_url)
+            self.tutor_view.show()
