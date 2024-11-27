@@ -10,21 +10,22 @@ class TutorView(QWidget):
         self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
         
-        # Get screen geometry
-        screen = QApplication.primaryScreen().geometry()
-        self.screen_width = screen.width()
+        # Get current screen based on mouse position
+        cursor_pos = QApplication.desktop().cursor().pos()
+        self.current_screen = QApplication.desktop().screenNumber(cursor_pos)
+        self.update_screen_geometry()
         
         # Calculate dimensions
         self.expanded_width = self.screen_width // 3
         self.collapsed_width = 30
         self.is_expanded = True
         
-        # Position window on right side of screen
+        # Position window on right side of current screen
         self.setGeometry(
-            self.screen_width - self.expanded_width,
-            0,
+            self.screen_x + self.screen_width - self.expanded_width,
+            self.screen_y,
             self.expanded_width,
-            screen.height()
+            self.screen_height
         )
         
         # Create layout

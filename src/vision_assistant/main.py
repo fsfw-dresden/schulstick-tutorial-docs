@@ -268,9 +268,31 @@ class CircularWindow(QWidget):
         
         menu.exec_(menu_pos)
 
+    def update_screen_geometry(self):
+        """Update geometry based on current screen"""
+        screen = QApplication.desktop().screenGeometry(self.current_screen)
+        self.screen_width = screen.width()
+        self.screen_height = screen.height()
+        self.screen_x = screen.x()
+        self.screen_y = screen.y()
+        
     def mouseMoveEvent(self, event):
+        # Check if we've moved to a different screen
+        new_screen = QApplication.desktop().screenNumber(event.globalPos())
+        if new_screen != self.current_screen:
+            self.current_screen = new_screen
+            self.update_screen_geometry()
+            
         delta = event.globalPos() - self.oldPos
-        self.move(self.x() + delta.x(), self.y() + delta.y())
+        new_pos = self.pos() + delta
+        
+        # Ensure window stays within screen bounds
+        new_x = max(self.screen_x, min(new_pos.x(), 
+                   self.screen_x + self.screen_width - self.width()))
+        new_y = max(self.screen_y, min(new_pos.y(), 
+                   self.screen_y + self.screen_height - self.height()))
+        
+        self.move(new_x, new_y)
         self.oldPos = event.globalPos()
         
     def toggle_window_size(self):
