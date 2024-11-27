@@ -4,7 +4,7 @@ from PyQt5.QtGui import QPainter, QColor
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from pathlib import Path
 from typing import Optional
-from core.models import ScreenHint
+from core.models import ScreenHint, UnitMetadata
 
 class TutorView(QWidget):
     def __init__(self, unit: Optional[UnitMetadata] = None):
@@ -29,7 +29,7 @@ class TutorView(QWidget):
         self.screen_y = screen.y()
         
         # Apply screen hints if available
-        if screen_hint:
+        if self.screen_hint:
             self.apply_screen_hints()
         
         # Calculate dimensions
