@@ -22,9 +22,12 @@ class TutorView(QWidget):
         self.position = DockPosition(self.screen_hint.position)
         self.mode = ViewMode(self.screen_hint.mode)
         
-        # Set window properties
-        self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
-        self.setAttribute(Qt.WA_TranslucentBackground)
+        # Set window properties based on mode
+        if self.mode == ViewMode.DOCKED:
+            self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
+            self.setAttribute(Qt.WA_TranslucentBackground)
+        else:
+            self.setWindowFlags(Qt.Window | Qt.WindowStaysOnTopHint)
         
         # Get current screen based on mouse position
         cursor_pos = QApplication.desktop().cursor().pos()
@@ -195,11 +198,12 @@ class TutorView(QWidget):
         self.update_toggle_button_icon()
         
     def paintEvent(self, event):
-        painter = QPainter(self)
-        painter.setRenderHint(QPainter.Antialiasing)
-        
-        # Draw semi-transparent background
-        painter.fillRect(self.rect(), QColor(40, 40, 40, 200))
+        if self.mode == ViewMode.DOCKED:
+            painter = QPainter(self)
+            painter.setRenderHint(QPainter.Antialiasing)
+            
+            # Draw semi-transparent background
+            painter.fillRect(self.rect(), QColor(40, 40, 40, 200))
 
     def mousePressEvent(self, event):
         """Handle mouse press events for dragging"""
