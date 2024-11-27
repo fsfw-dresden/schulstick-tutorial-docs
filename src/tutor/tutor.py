@@ -226,25 +226,21 @@ class TutorView(QWidget):
         menu.exec_(self.mapToGlobal(pos))
     
     def change_dock_mode(self, new_mode: ViewMode, new_position: Optional[DockPosition] = None):
-        """Change the dock mode and position of the window"""
+        """Change the dock mode and position of the window by creating a new instance with overridden ScreenHint"""
         if new_mode == self.mode and (new_mode == ViewMode.FREE or new_position == self.position):
             return
             
-        # Store old geometry for animation
-        old_geo = self.geometry()
+        # Create a new unit with overridden screen hint
+        modified_unit = self.unit
+        modified_unit.screen_hint = ScreenHint(
+            position=new_position or self.position,
+            mode=new_mode,
+            preferred_width=self.screen_hint.preferred_width,
+            preferred_height=self.screen_hint.preferred_height
+        )
         
-        # Update mode and position
-        self.mode = new_mode
-        if new_position:
-            self.position = new_position
-            
-        # Create new window with updated settings
-        new_window = TutorView(self.unit)
-        new_window.mode = new_mode
-        if new_position:
-            new_window.position = new_position
-        
-        # Show new window
+        # Create new window with the modified unit
+        new_window = TutorView(modified_unit)
         new_window.show()
         
         # Close this window
