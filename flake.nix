@@ -13,6 +13,7 @@
         commonBuildInputs = with pkgs; with pkgs.python3Packages; [
           pyqt5
           pyqtwebengine
+          pyqtwebchannel
           pillow
           platformdirs
           qt-material
