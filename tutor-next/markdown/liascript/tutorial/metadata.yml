@@ -1,0 +1,18 @@
+title: "LiaScript Tutorial"
+tags:
+  - liascript
+  - tutorial
+minGrade: 1
+skillLevel: 1
+subjects:
+  - computer science
+skillLevelPerSubject:
+  computer_science: 1
+markdownFile: "tutorial.md"
+previewImage: "preview.png"
+unitUrl: "http://localhost:3000/liascript/tutorial/output/"
+htmlPath: "output/index.html"
+screenHint:
+  position: "top"
+  mode: "free"
+
