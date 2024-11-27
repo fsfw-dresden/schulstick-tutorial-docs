@@ -21,6 +21,16 @@
           pyyaml
           fuzzywuzzy
           python-Levenshtein
+          (python3Packages.buildPythonPackage rec {
+            pname = "dataclass-wizard";
+            version = "0.22.2";
+            src = python3Packages.fetchPypi {
+              inherit pname version;
+              sha256 = "sha256-YourHashHere=="; # You'll need to replace this with the actual hash
+            };
+            propagatedBuildInputs = with python3Packages; [ pyyaml ];
+            doCheck = false;
+          })
         ] ++ [ 
           qt5.qttools  # Adds lrelease and other Qt tools
           qt5.qtbase

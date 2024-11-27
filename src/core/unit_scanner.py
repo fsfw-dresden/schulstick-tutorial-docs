@@ -1,28 +1,7 @@
-from dataclasses import dataclass
 from pathlib import Path
-from typing import Dict, List, Optional
-import yaml
+from typing import List
 from fuzzywuzzy import fuzz
-
-@dataclass
-class UnitMetadata:
-    title: str
-    tags: List[str]
-    min_grade: int
-    skill_level: int
-    subjects: List[str]
-    skill_level_per_subject: Dict[str, int]
-    markdown_file: str
-    preview_image: str
-    unit_path: Path
-    
-    @property
-    def markdown_path(self) -> Path:
-        return self.unit_path / self.markdown_file
-    
-    @property
-    def preview_path(self) -> Path:
-        return self.unit_path / self.preview_image
+from core.models import UnitMetadata
 
 class UnitScanner:
     def __init__(self, base_path: str = "tutor-next/markdown"):
@@ -34,21 +13,9 @@ class UnitScanner:
         """Recursively scan for metadata.yml files and parse them"""
         for metadata_file in self.base_path.rglob("metadata.yml"):
             try:
-                with open(metadata_file, 'r') as f:
-                    metadata = yaml.safe_load(f)
-                
-                unit_path = metadata_file.parent
-                self.units.append(UnitMetadata(
-                    title=metadata['title'],
-                    tags=metadata['tags'],
-                    min_grade=metadata['minGrade'],
-                    skill_level=metadata['skillLevel'],
-                    subjects=metadata['subjects'],
-                    skill_level_per_subject=metadata['skillLevelPerSubject'],
-                    markdown_file=metadata['markdownFile'],
-                    preview_image=metadata['previewImage'],
-                    unit_path=unit_path
-                ))
+                unit = UnitMetadata.from_yaml_file(metadata_file)
+                unit.unit_path = metadata_file.parent
+                self.units.append(unit)
             except Exception as e:
                 print(f"Error parsing {metadata_file}: {e}")
     

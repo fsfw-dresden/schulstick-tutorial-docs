@@ -11,7 +11,8 @@ dependencies = [
     "qt-material",
     "setuptools",  # For pkg_resources
     "requests>=2.31.0",
-    "fuzzywuzzy>=0.18.0"
+    "fuzzywuzzy>=0.18.0",
+    "dataclass-wizard[yaml]>=0.22.2"
 ]
 
 [build-system]
