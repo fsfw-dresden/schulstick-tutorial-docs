@@ -10,17 +10,21 @@ from PyQt5.QtWidgets import (QApplication, QWidget, QPushButton, QLineEdit,
 from PyQt5.QtCore import QBuffer, QByteArray
 from core.assets import Assets
 from core.preferences import Preferences
+from portal.window import PortalWindow
 from vision_assistant.vision import HighlightOverlay
 from vision_assistant.tutor import TutorView
 from PyQt5.QtCore import Qt, QPropertyAnimation, QEasingCurve, QRect
 from PyQt5.QtGui import (QPainter, QPainterPath, QColor, QIcon, QMovie, QPixmap)
 
 os.environ['QT_LOGGING_RULES'] = '*.debug=false;qt.qpa.*=false;qt.*=false;*.warning=false'
+#maximize logging
+#os.environ['QT_LOGGING_RULES'] = '*.debug=true;qt.qpa.*=true;qt.*=true;*.warning=true'
 
 class CircularWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.tutor_view = None
+        self.porttal = None 
         self.preferences = Preferences.load()
         
         # Setup logging
@@ -99,18 +103,21 @@ class CircularWindow(QWidget):
     def initUI(self):
         self.setGeometry(self.circular_geometry)
         
+
         # Add background animation for circular view
         try:
-            self.movie = Assets.load_movie('cloud.webp')
+            self.movie = Assets.load_movie('cloud.webp', "vision_assistant")
         except Exception as e:
+            self.logger.error(f"Failed to load movie: {e}")
             self.movie = QMovie()
             self.movie.setFileName('')  # Empty movie acts as black background
+
         self.movie.frameChanged.connect(self.repaint)
         self.movie.start()
         
         # Load static background for expanded view
         try:
-            self.night_bg = Assets.load_pixmap('night.jpg')
+            self.night_bg = Assets.load_pixmap('night.jpg', "vision_assistant")
         except Exception:
             self.night_bg = QPixmap()
         
@@ -318,7 +325,9 @@ class CircularWindow(QWidget):
         
     def launch_portal(self):
         """Launch the portal application"""
-        QApplication.instance().startDetached("portal")
+        if not self.porttal:
+            self.porttal = PortalWindow()
+        self.porttal.show()
     
     def cleanup_session(self):
         """Clean up API session on close"""

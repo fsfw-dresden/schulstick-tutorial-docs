@@ -8,3 +8,10 @@ trace
 node_modules
 result
 vision_assistant.egg-info
+__pycache__
+tutor-next/out
+tutor-next/export
+*.debhelper
+*.substvars
+.pybuild
+dev_config
