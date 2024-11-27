@@ -1,6 +1,18 @@
 schulstick (0.1.1) unstable; urgency=medium
 
-  * Create a tutor view
+  * Create a tutor view with the following features:
+    - Add standalone tutor package with dynamic tutorial view
+    - Add screen hint support with docked/free mode
+    - Add multi-monitor support for tutor window positioning
+    - Add UnitFinderWidget with search and card-based unit display
+    - Add UnitScanner class to scan and filter markdown units
+    - Add star visualization for skill level and fixed-width tags
+    - Improve UnitCard design with consistent sizing and dark theme
+    - Add LiaScript tutorial support
+    - Update build system to handle Next.js app compilation
+    - Remove obsolete tutor-related code
+    - Fix screen geometry initialization and positioning
+    - Update UnitMetadata model with optional paths and tutorial URL
 
  -- Schulstick Team <team@schulstick.org>  Wed, 27 Nov 2024 19:49:55 +0100
 
