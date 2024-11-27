@@ -23,6 +23,7 @@ Many students struggle with finding documentation, tutorials, or example files a
 - **Welcome Wizard**: Initial setup and user preference configuration
 - **Vision Assistant**: Interactive guidance system
 - **Portal Interface**: Central hub for accessing learning materials
+- **Tutor**: Interactive tutorial and lecture system
 - **Icon Finder**: Utility for theme icon discovery
 
 ## Development
@@ -65,6 +66,9 @@ nix run .#portal -L
 
 # Run the vision assistant
 nix run .#vision-assistant -L
+
+# Run the tutor
+nix run .#tutor -L -- ./path/to/tutorial
 ```
 
 ### Development Environment
@@ -80,7 +84,9 @@ nix develop
 # Then run components directly:
 portal
 welcome
+tutor ./path/to/tutorial
 vision-assistant
+
 ```
 
 #### Using Python venv

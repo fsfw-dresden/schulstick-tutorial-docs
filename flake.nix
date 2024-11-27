@@ -33,9 +33,9 @@
       in
       rec {
         packages = {
-          schulstick = pkgs.python3Packages.buildPythonApplication {
-            pname = "schulstick";
-            version = "0.1.0";
+          schulstick-portal = pkgs.python3Packages.buildPythonApplication {
+            pname = "schulstick-portal";
+            version = "0.1.1";
             src = ./.;
             format = "pyproject";
             
@@ -69,7 +69,7 @@
             doCheck = false;
           };
           
-          default = packages.schulstick;
+          default = packages.schulstick-portal;
         };
         
         apps = {
@@ -93,12 +93,13 @@
             drv = self.packages.${system}.schulstick;
             name = "tutor";
           };
-          default = self.apps.${system}.vision-assistant;
+          default = self.apps.${system}.portal;
         };
 
         devShell = pkgs.mkShell {
           buildInputs = with pkgs; [
             python3
+	    debian-devscripts
           ] ++ commonBuildInputs;
           LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
           
