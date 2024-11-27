@@ -20,7 +20,7 @@ override_dh_auto_build:
 	# Build Python package
 	dh_auto_build
 	# Build Next.js app
-	cd tutor-next && npm install && npm run build
+	cd tutor-next && npm install && npm run build && rm -rf node_modules
 	# Build translations
 	cd src/welcome/translations && \
 		for ts in *.ts; do \
