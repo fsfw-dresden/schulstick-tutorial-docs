@@ -55,13 +55,14 @@ class TutorView(QWidget):
             
         # Create web view with transparent background
         self.web_view = QWebEngineView()
-        self.web_view.page().setBackgroundColor(Qt.transparent)
-        self.web_view.setContextMenuPolicy(Qt.CustomContextMenu)
-        self.web_view.customContextMenuRequested.connect(self.show_web_context_menu)
         
         # Set up URL change monitoring
         self.web_view.urlChanged.connect(self.on_url_changed)
         self.web_view.loadFinished.connect(self.on_load_finished)
+
+        self.web_view.page().setBackgroundColor(Qt.transparent)
+        self.web_view.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.web_view.customContextMenuRequested.connect(self.show_web_context_menu)
         
         self.content_layout.addWidget(self.web_view)
         
