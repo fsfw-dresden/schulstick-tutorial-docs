@@ -68,6 +68,61 @@ class TutorView(QWidget):
         self.animation.setDuration(300)
         self.animation.setEasingCurve(QEasingCurve.InOutQuad)
 
+    def apply_screen_hints(self):
+        """Apply screen positioning hints"""
+        # Set default dimensions
+        self.expanded_width = self.screen_width // 3
+        self.collapsed_width = 30
+        
+        # Apply size hints if provided
+        if self.screen_hint.preferred_width:
+            self.expanded_width = min(self.screen_hint.preferred_width, self.screen_width)
+            
+        if self.screen_hint.preferred_height:
+            height = min(self.screen_hint.preferred_height, self.screen_height)
+            self.setFixedHeight(height)
+        else:
+            self.setFixedHeight(self.screen_height)
+            
+        # Calculate height based on aspect ratio if provided
+        if self.screen_hint.preferred_aspect and not (self.screen_hint.preferred_width and self.screen_hint.preferred_height):
+            if self.screen_hint.preferred_width:
+                height = int(self.screen_hint.preferred_width / self.screen_hint.preferred_aspect)
+                self.setFixedHeight(min(height, self.screen_height))
+            elif self.screen_hint.preferred_height:
+                width = int(self.screen_hint.preferred_height * self.screen_hint.preferred_aspect)
+                self.expanded_width = min(width, self.screen_width)
+        
+        # Position window based on screen hint position
+        if self.screen_hint.position == "top":
+            self.setGeometry(
+                self.screen_x + (self.screen_width - self.expanded_width) // 2,
+                self.screen_y,
+                self.expanded_width,
+                self.height()
+            )
+        elif self.screen_hint.position == "bottom":
+            self.setGeometry(
+                self.screen_x + (self.screen_width - self.expanded_width) // 2,
+                self.screen_y + self.screen_height - self.height(),
+                self.expanded_width,
+                self.height()
+            )
+        elif self.screen_hint.position == "left":
+            self.setGeometry(
+                self.screen_x,
+                self.screen_y + (self.screen_height - self.height()) // 2,
+                self.expanded_width,
+                self.height()
+            )
+        else:  # Default to right if no position or position is "right"
+            self.setGeometry(
+                self.screen_x + self.screen_width - self.expanded_width,
+                self.screen_y,
+                self.expanded_width,
+                self.height()
+            )
+
     def load_tutorial(self, url: str):
         """Load a tutorial from a URL"""
         self.web_view.load(QUrl(url))
