@@ -269,18 +269,21 @@ class CircularWindow(QWidget):
         menu.exec_(menu_pos)
 
     def apply_screen_hints(self):
-        """Apply screen positioning hints from metadata"""
-        if not self.screen_hint:
-            return
-            
+        """Apply screen positioning and sizing hints"""
+        # Set default dimensions
+        self.expanded_width = self.screen_width // 3
+        self.collapsed_width = 30
+        self.is_expanded = True
+        
         # Apply size hints if provided
         if self.screen_hint.preferred_width:
-            width = min(self.screen_hint.preferred_width, self.screen_width)
-            self.setFixedWidth(width)
+            self.expanded_width = min(self.screen_hint.preferred_width, self.screen_width)
             
         if self.screen_hint.preferred_height:
             height = min(self.screen_hint.preferred_height, self.screen_height)
             self.setFixedHeight(height)
+        else:
+            self.setFixedHeight(self.screen_height)
             
         if self.screen_hint.preferred_aspect and not (self.screen_hint.preferred_width and self.screen_hint.preferred_height):
             if self.screen_hint.preferred_width:
@@ -288,21 +291,37 @@ class CircularWindow(QWidget):
                 self.setFixedHeight(min(height, self.screen_height))
             elif self.screen_hint.preferred_height:
                 width = int(self.screen_hint.preferred_height * self.screen_hint.preferred_aspect)
-                self.setFixedWidth(min(width, self.screen_width))
+                self.expanded_width = min(width, self.screen_width)
         
-        # Position window based on hints
-        if self.screen_hint.position:
-            if self.screen_hint.position == "top":
-                self.move(self.screen_x + (self.screen_width - self.width()) // 2, self.screen_y)
-            elif self.screen_hint.position == "bottom":
-                self.move(self.screen_x + (self.screen_width - self.width()) // 2, 
-                         self.screen_y + self.screen_height - self.height())
-            elif self.screen_hint.position == "left":
-                self.move(self.screen_x, 
-                         self.screen_y + (self.screen_height - self.height()) // 2)
-            elif self.screen_hint.position == "right":
-                self.move(self.screen_x + self.screen_width - self.width(),
-                         self.screen_y + (self.screen_height - self.height()) // 2)
+        # Position window based on screen hint position
+        if self.screen_hint.position == "top":
+            self.setGeometry(
+                self.screen_x + (self.screen_width - self.expanded_width) // 2,
+                self.screen_y,
+                self.expanded_width,
+                self.height()
+            )
+        elif self.screen_hint.position == "bottom":
+            self.setGeometry(
+                self.screen_x + (self.screen_width - self.expanded_width) // 2,
+                self.screen_y + self.screen_height - self.height(),
+                self.expanded_width,
+                self.height()
+            )
+        elif self.screen_hint.position == "left":
+            self.setGeometry(
+                self.screen_x,
+                self.screen_y + (self.screen_height - self.height()) // 2,
+                self.expanded_width,
+                self.height()
+            )
+        else:  # Default to right if no position or position is "right"
+            self.setGeometry(
+                self.screen_x + self.screen_width - self.expanded_width,
+                self.screen_y,
+                self.expanded_width,
+                self.height()
+            )
                          
     def update_screen_geometry(self):
         """Update geometry based on current screen"""

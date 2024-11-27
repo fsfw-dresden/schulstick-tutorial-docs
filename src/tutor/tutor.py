@@ -11,6 +11,8 @@ class TutorView(QWidget):
         super().__init__()
         self.unit = unit
         self.screen_hint = unit.screen_hint or ScreenHint(position="right", mode="docked")
+        
+        # Set window properties
         self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
         
@@ -18,29 +20,9 @@ class TutorView(QWidget):
         cursor_pos = QApplication.desktop().cursor().pos()
         self.current_screen = QApplication.desktop().screenNumber(cursor_pos)
         
-        # Initialize screen geometry
-        screen = QApplication.desktop().screenGeometry(self.current_screen)
-        self.screen_width = screen.width()
-        self.screen_height = screen.height()
-        self.screen_x = screen.x()
-        self.screen_y = screen.y()
-        
-        # Apply screen hints if available
-        if self.screen_hint:
-            self.apply_screen_hints()
-        
-        # Calculate dimensions
-        self.expanded_width = self.screen_width // 3
-        self.collapsed_width = 30
-        self.is_expanded = True
-        
-        # Position window on right side of current screen
-        self.setGeometry(
-            self.screen_x + self.screen_width - self.expanded_width,
-            self.screen_y,
-            self.expanded_width,
-            self.screen_height
-        )
+        # Initialize screen geometry and apply hints
+        self.update_screen_geometry()
+        self.apply_screen_hints()
         
         # Create layout
         self.layout = QVBoxLayout(self)
