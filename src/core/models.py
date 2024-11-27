@@ -4,6 +4,14 @@ from typing import Dict, List, Optional
 from dataclass_wizard import YAMLWizard
 
 @dataclass
+class ScreenHint:
+    position: Optional[str] = None  # top, bottom, left, right
+    mode: str = "docked"  # docked or free
+    preferred_width: Optional[int] = None
+    preferred_height: Optional[int] = None 
+    preferred_aspect: Optional[float] = None
+
+@dataclass
 class UnitMetadata(YAMLWizard):
     title: str
     tags: List[str]
@@ -13,6 +21,7 @@ class UnitMetadata(YAMLWizard):
     skill_level_per_subject: Dict[str, int]
     markdown_file: str
     preview_image: str
+    screen_hint: Optional[ScreenHint] = None
     unit_url: str = None
     html_path: str = None
     unit_path: str = None

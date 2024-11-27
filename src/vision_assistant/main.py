@@ -268,6 +268,42 @@ class CircularWindow(QWidget):
         
         menu.exec_(menu_pos)
 
+    def apply_screen_hints(self):
+        """Apply screen positioning hints from metadata"""
+        if not self.screen_hint:
+            return
+            
+        # Apply size hints if provided
+        if self.screen_hint.preferred_width:
+            width = min(self.screen_hint.preferred_width, self.screen_width)
+            self.setFixedWidth(width)
+            
+        if self.screen_hint.preferred_height:
+            height = min(self.screen_hint.preferred_height, self.screen_height)
+            self.setFixedHeight(height)
+            
+        if self.screen_hint.preferred_aspect and not (self.screen_hint.preferred_width and self.screen_hint.preferred_height):
+            if self.screen_hint.preferred_width:
+                height = int(self.screen_hint.preferred_width / self.screen_hint.preferred_aspect)
+                self.setFixedHeight(min(height, self.screen_height))
+            elif self.screen_hint.preferred_height:
+                width = int(self.screen_hint.preferred_height * self.screen_hint.preferred_aspect)
+                self.setFixedWidth(min(width, self.screen_width))
+        
+        # Position window based on hints
+        if self.screen_hint.position:
+            if self.screen_hint.position == "top":
+                self.move(self.screen_x + (self.screen_width - self.width()) // 2, self.screen_y)
+            elif self.screen_hint.position == "bottom":
+                self.move(self.screen_x + (self.screen_width - self.width()) // 2, 
+                         self.screen_y + self.screen_height - self.height())
+            elif self.screen_hint.position == "left":
+                self.move(self.screen_x, 
+                         self.screen_y + (self.screen_height - self.height()) // 2)
+            elif self.screen_hint.position == "right":
+                self.move(self.screen_x + self.screen_width - self.width(),
+                         self.screen_y + (self.screen_height - self.height()) // 2)
+                         
     def update_screen_geometry(self):
         """Update geometry based on current screen"""
         screen = QApplication.desktop().screenGeometry(self.current_screen)
@@ -277,13 +313,21 @@ class CircularWindow(QWidget):
         self.screen_y = screen.y()
         
         # Update window position to stay within new screen bounds
-        new_x = max(self.screen_x, min(self.x(), 
-                   self.screen_x + self.screen_width - self.width()))
-        new_y = max(self.screen_y, min(self.y(), 
-                   self.screen_y + self.screen_height - self.height()))
-        self.move(new_x, new_y)
+        if not self.screen_hint or self.screen_hint.mode == "free":
+            new_x = max(self.screen_x, min(self.x(), 
+                       self.screen_x + self.screen_width - self.width()))
+            new_y = max(self.screen_y, min(self.y(), 
+                       self.screen_y + self.screen_height - self.height()))
+            self.move(new_x, new_y)
+        else:
+            # Re-apply docked position
+            self.apply_screen_hints()
         
     def mouseMoveEvent(self, event):
+        # Only allow movement in free mode
+        if self.screen_hint and self.screen_hint.mode != "free":
+            return
+            
         # Check if we've moved to a different screen
         new_screen = QApplication.desktop().screenNumber(event.globalPos())
         if new_screen != self.current_screen:

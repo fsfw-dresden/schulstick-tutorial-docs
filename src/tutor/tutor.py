@@ -5,8 +5,9 @@ from PyQt5.QtWebEngineWidgets import QWebEngineView
 from pathlib import Path
 
 class TutorView(QWidget):
-    def __init__(self, tutorial_url: str = None):
+    def __init__(self, tutorial_url: str = None, screen_hint: Optional[ScreenHint] = None):
         super().__init__()
+        self.screen_hint = screen_hint
         self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
         
@@ -20,6 +21,10 @@ class TutorView(QWidget):
         self.screen_height = screen.height()
         self.screen_x = screen.x()
         self.screen_y = screen.y()
+        
+        # Apply screen hints if available
+        if screen_hint:
+            self.apply_screen_hints()
         
         # Calculate dimensions
         self.expanded_width = self.screen_width // 3
