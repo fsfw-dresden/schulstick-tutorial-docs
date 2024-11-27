@@ -89,6 +89,10 @@
             drv = self.packages.${system}.schulstick;
             name = "portal";
           };
+          tutor = flake-utils.lib.mkApp {
+            drv = self.packages.${system}.schulstick;
+            name = "tutor";
+          };
           default = self.apps.${system}.vision-assistant;
         };
 
@@ -105,12 +109,14 @@
             alias welcome="python -m welcome.main"
             alias icon-finder="python -m helper.icon_finder"
             alias portal="python -m portal.main"
+            alias tutor="python -m tutor.main"
             
             echo "Development shell aliases available:"
             echo "  vision-assistant  - Run the vision assistant"
             echo "  welcome          - Run the welcome wizard"
             echo "  icon-finder      - Run the icon finder utility"
             echo "  portal           - Run the portal app"
+            echo "  tutor           - Run the tutor app"
           '';
         };
       }
