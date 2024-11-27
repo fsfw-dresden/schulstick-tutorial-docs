@@ -3,6 +3,8 @@ from PyQt5.QtCore import Qt, QPropertyAnimation, QEasingCurve, QRect, QUrl
 from PyQt5.QtGui import QPainter, QColor
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from pathlib import Path
+from typing import Optional
+from core.models import ScreenHint
 
 class TutorView(QWidget):
     def __init__(self, tutorial_url: str = None, screen_hint: Optional[ScreenHint] = None):
