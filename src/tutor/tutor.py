@@ -5,7 +5,8 @@ from PyQt5.QtWidgets import (QWidget, QPushButton, QApplication, QVBoxLayout,
 from PyQt5.QtCore import Qt, QPropertyAnimation, QEasingCurve, QRect, QUrl, QSize
 from PyQt5.QtWebEngineCore import QWebEngineUrlRequestInterceptor
 from PyQt5.QtGui import QPainter, QColor, QIcon
-from PyQt5.QtWebEngineWidgets import QWebEngineView, QWebChannel
+from PyQt5.QtWebEngineWidgets import QWebEngineView
+from PyQt5.QtWebChannel import QWebChannel
 import json
 from pathlib import Path
 from typing import Optional, Tuple
