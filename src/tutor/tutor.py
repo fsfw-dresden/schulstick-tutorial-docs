@@ -1,7 +1,9 @@
 from enum import Enum
+import logging
 from PyQt5.QtWidgets import (QWidget, QPushButton, QApplication, QVBoxLayout, 
                             QHBoxLayout, QSizePolicy, QMenu, QAction)
 from PyQt5.QtCore import Qt, QPropertyAnimation, QEasingCurve, QRect, QUrl, QSize
+from PyQt5.QtWebEngineCore import QWebEngineUrlRequestInterceptor
 from PyQt5.QtGui import QPainter, QColor, QIcon
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from pathlib import Path
@@ -19,6 +21,8 @@ class TutorView(QWidget):
         super().__init__()
         self.unit = unit
         self.screen_hint = unit.screen_hint or ScreenHint(position=DockPosition.RIGHT, mode=ViewMode.DOCKED)
+        self.logger = logging.getLogger(__name__)
+        self.current_url = None
         self.is_expanded = True
         self.position = DockPosition(self.screen_hint.position)
         self.mode = ViewMode(self.screen_hint.mode)
@@ -54,10 +58,18 @@ class TutorView(QWidget):
         self.web_view.page().setBackgroundColor(Qt.transparent)
         self.web_view.setContextMenuPolicy(Qt.CustomContextMenu)
         self.web_view.customContextMenuRequested.connect(self.show_web_context_menu)
+        
+        # Set up URL change monitoring
+        self.web_view.urlChanged.connect(self.on_url_changed)
+        self.web_view.loadFinished.connect(self.on_load_finished)
+        
         self.content_layout.addWidget(self.web_view)
         
         if self.unit.tutorial_url:
-            self.web_view.load(QUrl(self.unit.tutorial_url))
+            initial_url = QUrl(self.unit.tutorial_url)
+            self.web_view.load(initial_url)
+            self.current_url = initial_url
+            self.logger.info(f"Loading initial URL: {initial_url.toString()}")
         
         # Create and setup toggle button if in docked mode
         if self.mode == ViewMode.DOCKED:
@@ -259,3 +271,15 @@ class TutorView(QWidget):
         
         # Close this window
         self.close()
+
+    def on_url_changed(self, url: QUrl):
+        """Handle URL changes in the web view"""
+        self.current_url = url
+        self.logger.info(f"URL changed to: {url.toString()}")
+
+    def on_load_finished(self, success: bool):
+        """Handle page load completion"""
+        if success:
+            self.logger.info(f"Page loaded successfully: {self.current_url.toString()}")
+        else:
+            self.logger.error(f"Failed to load page: {self.current_url.toString()}")
