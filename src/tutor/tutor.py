@@ -23,6 +23,14 @@ class TutorView(QWidget):
         # Initialize screen geometry and apply hints
         self.update_screen_geometry()
         self.apply_screen_hints()
+
+    def update_screen_geometry(self):
+        """Update geometry based on current screen"""
+        screen = QApplication.desktop().screenGeometry(self.current_screen)
+        self.screen_width = screen.width()
+        self.screen_height = screen.height()
+        self.screen_x = screen.x()
+        self.screen_y = screen.y()
         
         # Create layout
         self.layout = QVBoxLayout(self)
