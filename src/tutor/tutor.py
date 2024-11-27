@@ -11,6 +11,7 @@ class TutorView(QWidget):
         super().__init__()
         self.unit = unit
         self.screen_hint = unit.screen_hint or ScreenHint(position="right", mode="docked")
+        self.is_expanded = True  # Start in expanded state
         
         # Set window properties
         self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
