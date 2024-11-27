@@ -1,11 +1,16 @@
 #!/usr/bin/env bash
 set -e
 
+# Create dist directory if it doesn't exist
+mkdir -p dist
 # Build the Docker image
 docker build -t schulstick-builder -f docker/Dockerfile.build .
 
 # Run the build process
-docker run --rm -v "$(pwd):/build" -v "$(pwd)/dist:/dist" schulstick-builder bash -c "cd /build && dpkg-buildpackage -us -uc && mv ../schulstick* /dist" 
+docker run --rm -v "$(pwd):/build" schulstick-builder bash -c "\
+    dpkg-buildpackage -us -uc && \
+    find .. -name '*.deb' -exec dpkg -c {} \; && \
+    cp ../*.deb dist/"
 
+echo "Build complete. Check ./dist for the debian package."
 
-echo "Debian package built successfully! Check the dist/ directory."

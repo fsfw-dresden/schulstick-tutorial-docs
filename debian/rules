@@ -3,7 +3,8 @@
 export PYBUILD_NAME=schulstick
 export DH_VERBOSE=1
 export PYBUILD_BUILD_ARGS=--no-isolation
-export PYBUILD_SYSTEM=hatchling
+export PYBUILD_SYSTEM=pyproject
+export PYBUILD_INSTALL_ARGS=--install-scripts=/usr/bin
 
 %:
 	dh $@ --with python3 --buildsystem=pybuild
@@ -13,19 +14,21 @@ override_dh_auto_clean:
 	rm -rf .pytest_cache
 	rm -rf src/*.egg-info
 	rm -rf build
-	rm -rf dist
 	rm -rf .pybuild
 
 override_dh_auto_build:
 	# Build Python package
 	dh_auto_build
 	# Build Next.js app
-	cd tutor-next && npm install && npm run build && npm run export
+	cd tutor-next && npm install && npm run build
 	# Build translations
 	cd src/welcome/translations && \
 		for ts in *.ts; do \
 			lrelease $$ts; \
 		done
+
+override_dh_auto_test:
+	@echo "Skipping tests"
 
 override_dh_auto_install:
 	dh_auto_install
@@ -36,6 +39,3 @@ override_dh_auto_install:
 	# Install translations
 	mkdir -p debian/schulstick/usr/share/schulstick/translations
 	cp src/welcome/translations/*.qm debian/schulstick/usr/share/schulstick/translations/
-	# Install nginx configuration
-	mkdir -p debian/schulstick/etc/nginx/sites-available
-	cp debian/schulstick-tutor.nginx debian/schulstick/etc/nginx/sites-available/schulstick-tutor

@@ -10,7 +10,7 @@
       let 
         pkgs = nixpkgs.legacyPackages.${system};
         
-        commonBuildInputs = with pkgs.python3Packages; [
+        commonBuildInputs = with pkgs; with pkgs.python3Packages; [
           pyqt5
           pyqtwebengine
           pillow
@@ -21,7 +21,11 @@
           pyyaml
           fuzzywuzzy
           python-Levenshtein
-        ] ++ [ pkgs.qt5.qttools ]; # Adds lrelease and other Qt tools
+        ] ++ [ 
+          qt5.qttools  # Adds lrelease and other Qt tools
+          qt5.qtbase
+          qt5.qtwayland
+          ];
         
         commonPropagatedBuildInputs = [];
         
@@ -60,7 +64,7 @@
             ];
             
             propagatedBuildInputs = commonBuildInputs ++ commonPropagatedBuildInputs;
-            
+
             doCheck = false;
           };
           

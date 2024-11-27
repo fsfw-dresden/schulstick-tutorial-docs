@@ -1,21 +1,21 @@
 #!/usr/bin/env bash
-set -e
+set -euo pipefail
 
-if [ ! -d "dist" ] || [ -z "$(ls -A dist/*.deb 2>/dev/null)" ]; then
-    echo "No .deb package found in dist/. Run build-deb.sh first!"
-    exit 1
+DOCKER_CMD="docker"
+ADDITIONAL_ARGS=""
+IMAGE="debian:bookworm-slim"
+if [ "${1:-}" = "-x" ]; then
+  echo "using x11docker"
+  DOCKER_CMD="x11docker"
+  #ADDITIONAL_ARGS="--gpu yes"
+  ADDITIONAL_ARGS=""
+  IMAGE="x11docker/xfce"
 fi
 
-# Build the test Docker image
-docker build -t schulstick-tester -f docker/Dockerfile.test .
+$DOCKER_CMD \
+  ${ADDITIONAL_ARGS} \
+  -v "$(pwd)/dist:/dist:ro" \
+  ${IMAGE} \
+  /bin/bash -c "apt-get update && apt-get install -y /dist/*.deb && bash"
 
-# Run the container with the .deb package
-docker run --rm \
-    -v "$(pwd)/dist:/app/dist" \
-    -e DISPLAY=$DISPLAY \
-    -v /tmp/.X11-unix:/tmp/.X11-unix \
-    schulstick-tester bash -c "\
-        dpkg -i dist/*.deb && \
-        su schulstick -c 'welcome'"
 
-echo "Test completed!"
