@@ -1,7 +1,8 @@
 from enum import Enum
-from PyQt5.QtWidgets import QWidget, QPushButton, QApplication, QVBoxLayout, QHBoxLayout, QSizePolicy
+from PyQt5.QtWidgets import (QWidget, QPushButton, QApplication, QVBoxLayout, 
+                            QHBoxLayout, QSizePolicy, QMenu, QAction)
 from PyQt5.QtCore import Qt, QPropertyAnimation, QEasingCurve, QRect, QUrl, QSize
-from PyQt5.QtGui import QPainter, QColor
+from PyQt5.QtGui import QPainter, QColor, QIcon
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from pathlib import Path
 from typing import Optional, Tuple
@@ -21,6 +22,10 @@ class TutorView(QWidget):
         self.is_expanded = True
         self.position = DockPosition(self.screen_hint.position)
         self.mode = ViewMode(self.screen_hint.mode)
+        
+        # Context menu setup
+        self.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.customContextMenuRequested.connect(self.show_context_menu)
         
         # Set window properties based on mode
         if self.mode == ViewMode.DOCKED:
@@ -198,3 +203,49 @@ class TutorView(QWidget):
             # Draw semi-transparent background
             painter.fillRect(self.rect(), QColor(40, 40, 40, 200))
 
+    def show_context_menu(self, pos):
+        """Show the context menu for dock mode selection"""
+        menu = QMenu(self)
+        
+        # Create actions for each dock mode
+        actions = {
+            (ViewMode.FREE, None): (QIcon.fromTheme("window"), self.tr("Undocked")),
+            (ViewMode.DOCKED, DockPosition.LEFT): (QIcon.fromTheme("format-justify-left"), self.tr("Dock Left")),
+            (ViewMode.DOCKED, DockPosition.RIGHT): (QIcon.fromTheme("format-justify-right"), self.tr("Dock Right")),
+            (ViewMode.DOCKED, DockPosition.TOP): (QIcon.fromTheme("format-text-direction-vertical"), self.tr("Dock Top")),
+            (ViewMode.DOCKED, DockPosition.BOTTOM): (QIcon.fromTheme("format-text-direction-vertical"), self.tr("Dock Bottom"))
+        }
+        
+        for (mode, position), (icon, text) in actions.items():
+            action = QAction(icon, text, self)
+            action.setCheckable(True)
+            action.setChecked(self.mode == mode and (mode == ViewMode.FREE or self.position == position))
+            action.triggered.connect(lambda checked, m=mode, p=position: self.change_dock_mode(m, p))
+            menu.addAction(action)
+        
+        menu.exec_(self.mapToGlobal(pos))
+    
+    def change_dock_mode(self, new_mode: ViewMode, new_position: Optional[DockPosition] = None):
+        """Change the dock mode and position of the window"""
+        if new_mode == self.mode and (new_mode == ViewMode.FREE or new_position == self.position):
+            return
+            
+        # Store old geometry for animation
+        old_geo = self.geometry()
+        
+        # Update mode and position
+        self.mode = new_mode
+        if new_position:
+            self.position = new_position
+            
+        # Create new window with updated settings
+        new_window = TutorView(self.unit)
+        new_window.mode = new_mode
+        if new_position:
+            new_window.position = new_position
+        
+        # Show new window
+        new_window.show()
+        
+        # Close this window
+        self.close()
