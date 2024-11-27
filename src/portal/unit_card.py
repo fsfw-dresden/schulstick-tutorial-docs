@@ -91,5 +91,5 @@ class UnitCard(QFrame):
     def mousePressEvent(self, event):
         if event.button() == Qt.LeftButton:
             if not self.tutor_view:
-                self.tutor_view = TutorView(self.unit.tutorial_url)
+                self.tutor_view = TutorView(self.unit)
             self.tutor_view.show()

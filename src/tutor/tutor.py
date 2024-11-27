@@ -7,9 +7,13 @@ from typing import Optional
 from core.models import ScreenHint
 
 class TutorView(QWidget):
-    def __init__(self, tutorial_url: str = None, screen_hint: Optional[ScreenHint] = None):
+    def __init__(self, unit: Optional[UnitMetadata] = None):
         super().__init__()
-        self.screen_hint = screen_hint
+        self.unit = unit
+        self.screen_hint = unit.screen_hint if unit else None
+        if not self.screen_hint:
+            # Default screen hint: docked right
+            self.screen_hint = ScreenHint(position="right", mode="docked")
         self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
         
@@ -49,8 +53,8 @@ class TutorView(QWidget):
         self.web_view = QWebEngineView(self)
         self.web_view.page().setBackgroundColor(Qt.transparent)
         
-        if tutorial_url:
-            self.load_tutorial(tutorial_url)
+        if self.unit and self.unit.tutorial_url:
+            self.load_tutorial(self.unit.tutorial_url)
             
         self.layout.addWidget(self.web_view)
         

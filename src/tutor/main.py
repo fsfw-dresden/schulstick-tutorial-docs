@@ -27,7 +27,7 @@ def main():
         try:
             unit = UnitMetadata.from_yaml_file(metadata_file)
             unit.unit_path = unit_dir
-            tutor = TutorView(unit.tutorial_url)
+            tutor = TutorView(unit)
             tutor.show()
             return app.exec_()
         except Exception as e:
