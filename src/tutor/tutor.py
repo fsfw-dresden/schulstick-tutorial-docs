@@ -13,7 +13,13 @@ class TutorView(QWidget):
         # Get current screen based on mouse position
         cursor_pos = QApplication.desktop().cursor().pos()
         self.current_screen = QApplication.desktop().screenNumber(cursor_pos)
-        self.update_screen_geometry()
+        
+        # Initialize screen geometry
+        screen = QApplication.desktop().screenGeometry(self.current_screen)
+        self.screen_width = screen.width()
+        self.screen_height = screen.height()
+        self.screen_x = screen.x()
+        self.screen_y = screen.y()
         
         # Calculate dimensions
         self.expanded_width = self.screen_width // 3

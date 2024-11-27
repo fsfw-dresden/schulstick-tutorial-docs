@@ -276,6 +276,13 @@ class CircularWindow(QWidget):
         self.screen_x = screen.x()
         self.screen_y = screen.y()
         
+        # Update window position to stay within new screen bounds
+        new_x = max(self.screen_x, min(self.x(), 
+                   self.screen_x + self.screen_width - self.width()))
+        new_y = max(self.screen_y, min(self.y(), 
+                   self.screen_y + self.screen_height - self.height()))
+        self.move(new_x, new_y)
+        
     def mouseMoveEvent(self, event):
         # Check if we've moved to a different screen
         new_screen = QApplication.desktop().screenNumber(event.globalPos())
