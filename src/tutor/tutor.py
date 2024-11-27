@@ -1,25 +1,15 @@
 from enum import Enum
-from PyQt5.QtWidgets import QWidget, QPushButton, QApplication, QVBoxLayout, QHBoxLayout
+from PyQt5.QtWidgets import QWidget, QPushButton, QApplication, QVBoxLayout, QHBoxLayout, QSizePolicy
 from PyQt5.QtCore import Qt, QPropertyAnimation, QEasingCurve, QRect, QUrl, QSize
 from PyQt5.QtGui import QPainter, QColor
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from pathlib import Path
 from typing import Optional, Tuple
-from core.models import ScreenHint, UnitMetadata
+from core.models import ViewMode, DockPosition, ScreenHint, UnitMetadata
 
-class DockPosition(Enum):
-    TOP = "top"
-    BOTTOM = "bottom"
-    LEFT = "left"
-    RIGHT = "right"
-    
-class ViewMode(Enum):
-    DOCKED = "docked"
-    FREE = "free"
-    
 class CollapseIcons:
-    TOP = ("▼", "▲")
-    BOTTOM = ("▲", "▼")
+    BOTTOM = ("▼", "▲")
+    TOP = ("▲", "▼")
     LEFT = ("◀", "▶")
     RIGHT = ("▶", "◀")
 
@@ -27,7 +17,7 @@ class TutorView(QWidget):
     def __init__(self, unit: UnitMetadata):
         super().__init__()
         self.unit = unit
-        self.screen_hint = unit.screen_hint or ScreenHint(position="right", mode="docked")
+        self.screen_hint = unit.screen_hint or ScreenHint(position=DockPosition.RIGHT, mode=ViewMode.DOCKED)
         self.is_expanded = True
         self.position = DockPosition(self.screen_hint.position)
         self.mode = ViewMode(self.screen_hint.mode)
@@ -47,8 +37,16 @@ class TutorView(QWidget):
         
         # Create content widget
         self.content_widget = QWidget()
+        self.content_widget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
         self.content_layout = QVBoxLayout(self.content_widget)
-        self.content_layout.setContentsMargins(20, 20, 20, 20)
+        if self.screen_hint.mode == ViewMode.DOCKED:
+            self.content_layout.setContentsMargins(0, 0, 0, 0)
+        else:
+            # Set margins to create draggable area
+            self.content_layout.setContentsMargins(20, 20, 20, 20)
+            # Make the margins draggable
+            self.content_widget.mousePressEvent = self.start_drag
+            self.content_widget.mouseMoveEvent = self.drag_window
         
         # Create web view with transparent background
         self.web_view = QWebEngineView()
@@ -202,3 +200,16 @@ class TutorView(QWidget):
         
         # Draw semi-transparent background
         painter.fillRect(self.rect(), QColor(40, 40, 40, 200))
+
+    def start_drag(self, event):
+        """Initialize window dragging"""
+        self.x = event.x
+        self.y = event.y
+
+    def drag_window(self, event):
+        """Handle window dragging"""
+        deltax = event.x - self.x
+        deltay = event.y - self.y
+        x = self.winfo_x() + deltax
+        y = self.winfo_y() + deltay
+        self.geometry(f"+{x}+{y}")
