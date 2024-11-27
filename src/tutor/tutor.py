@@ -42,15 +42,8 @@ class TutorView(QWidget):
         self.content_widget = QWidget()
         self.content_widget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
         self.content_layout = QVBoxLayout(self.content_widget)
-        if self.screen_hint.mode == ViewMode.DOCKED:
-            self.content_layout.setContentsMargins(0, 0, 0, 0)
-        else:
-            # Set margins to create draggable area
-            self.content_layout.setContentsMargins(20, 20, 20, 20)
+        self.content_layout.setContentsMargins(0, 0, 0, 0)
             
-        # Initialize drag position
-        self.drag_position = None
-        
         # Create web view with transparent background
         self.web_view = QWebEngineView()
         self.web_view.page().setBackgroundColor(Qt.transparent)
@@ -205,20 +198,3 @@ class TutorView(QWidget):
             # Draw semi-transparent background
             painter.fillRect(self.rect(), QColor(40, 40, 40, 200))
 
-    def mousePressEvent(self, event):
-        """Handle mouse press events for dragging"""
-        if event.button() == Qt.LeftButton and self.mode == ViewMode.FREE:
-            self.drag_position = event.globalPos() - self.frameGeometry().topLeft()
-            event.accept()
-
-    def mouseMoveEvent(self, event):
-        """Handle mouse move events for dragging"""
-        if event.buttons() & Qt.LeftButton and self.drag_position is not None and self.mode == ViewMode.FREE:
-            self.move(event.globalPos() - self.drag_position)
-            event.accept()
-
-    def mouseReleaseEvent(self, event):
-        """Handle mouse release events for dragging"""
-        if event.button() == Qt.LeftButton:
-            self.drag_position = None
-            event.accept()
