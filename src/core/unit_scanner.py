@@ -11,11 +11,14 @@ class UnitScanner:
     
     def _scan_units(self) -> None:
         """Recursively scan for metadata.yml files and parse them"""
+        seen_titles = set()
         for metadata_file in self.base_path.rglob("metadata.yml"):
             try:
                 unit = UnitMetadata.from_yaml_file(metadata_file)
-                unit.unit_path = metadata_file.parent
-                self.units.append(unit)
+                if unit.title not in seen_titles:
+                    unit.unit_path = metadata_file.parent
+                    self.units.append(unit)
+                    seen_titles.add(unit.title)
             except Exception as e:
                 print(f"Error parsing {metadata_file}: {e}")
     
