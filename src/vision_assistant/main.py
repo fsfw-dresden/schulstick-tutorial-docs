@@ -12,7 +12,6 @@ from core.assets import Assets
 from core.preferences import Preferences
 from portal.window import PortalWindow
 from vision_assistant.vision import HighlightOverlay
-from vision_assistant.tutor import TutorView
 from PyQt5.QtCore import Qt, QPropertyAnimation, QEasingCurve, QRect
 from PyQt5.QtGui import (QPainter, QPainterPath, QColor, QIcon, QMovie, QPixmap)
 
@@ -23,7 +22,6 @@ os.environ['QT_LOGGING_RULES'] = '*.debug=false;qt.qpa.*=false;qt.*=false;*.warn
 class CircularWindow(QWidget):
     def __init__(self):
         super().__init__()
-        self.tutor_view = None
         self.porttal = None 
         self.preferences = Preferences.load()
         
@@ -239,10 +237,6 @@ class CircularWindow(QWidget):
         expand_action.triggered.connect(self.toggle_window_size)
         menu.addAction(expand_action)
         
-        # Show tutor view action
-        tutor_action = QAction(QIcon.fromTheme("help-contents"), "Show Tutor", self)
-        tutor_action.triggered.connect(self.show_tutor)
-        menu.addAction(tutor_action)
         
         # Launch portal action
         portal_action = QAction(QIcon.fromTheme("applications-education"), "Open Portal", self)
@@ -409,12 +403,6 @@ class CircularWindow(QWidget):
         if hasattr(self, 'highlight_overlay'):
             self.highlight_overlay.show_last_hint()
             
-    def show_tutor(self):
-        """Show or create the tutor view"""
-        if not self.tutor_view:
-            self.tutor_view = TutorView()
-        self.tutor_view.show()
-        
     def launch_portal(self):
         """Launch the portal application"""
         if not self.porttal:
