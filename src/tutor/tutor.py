@@ -52,6 +52,8 @@ class TutorView(QWidget):
         # Create web view with transparent background
         self.web_view = QWebEngineView()
         self.web_view.page().setBackgroundColor(Qt.transparent)
+        self.web_view.setContextMenuPolicy(Qt.CustomContextMenu)
+        self.web_view.customContextMenuRequested.connect(self.show_web_context_menu)
         self.content_layout.addWidget(self.web_view)
         
         if self.unit.tutorial_url:
@@ -205,6 +207,18 @@ class TutorView(QWidget):
 
     def show_context_menu(self, pos):
         """Show the context menu for dock mode selection"""
+        # Convert position to global coordinates for proper menu placement
+        global_pos = self.mapToGlobal(pos)
+        self.show_dock_menu(global_pos)
+
+    def show_web_context_menu(self, pos):
+        """Handle context menu events from the web view"""
+        # Convert position to global coordinates
+        global_pos = self.web_view.mapToGlobal(pos)
+        self.show_dock_menu(global_pos)
+
+    def show_dock_menu(self, global_pos):
+        """Show the dock mode selection menu at the specified global position"""
         menu = QMenu(self)
         
         # Create actions for each dock mode
@@ -223,7 +237,7 @@ class TutorView(QWidget):
             action.triggered.connect(lambda checked, m=mode, p=position: self.change_dock_mode(m, p))
             menu.addAction(action)
         
-        menu.exec_(self.mapToGlobal(pos))
+        menu.exec_(global_pos)
     
     def change_dock_mode(self, new_mode: ViewMode, new_position: Optional[DockPosition] = None):
         """Change the dock mode and position of the window by creating a new instance with overridden ScreenHint"""
