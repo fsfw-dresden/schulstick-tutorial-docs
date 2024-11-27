@@ -262,6 +262,25 @@ class CircularWindow(QWidget):
         
         menu.exec_(menu_pos)
 
+    def update_screen_geometry(self):
+        """Update geometry based on current screen"""
+        screen = QApplication.desktop().screenGeometry(self.current_screen)
+        self.screen_width = screen.width()
+        self.screen_height = screen.height()
+        self.screen_x = screen.x()
+        self.screen_y = screen.y()
+        
+        # Update window position to stay within new screen bounds
+        if not self.screen_hint or self.screen_hint.mode == "free":
+            new_x = max(self.screen_x, min(self.x(), 
+                       self.screen_x + self.screen_width - self.width()))
+            new_y = max(self.screen_y, min(self.y(), 
+                       self.screen_y + self.screen_height - self.height()))
+            self.move(new_x, new_y)
+        else:
+            # Re-apply docked position
+            self.apply_screen_hints()
+
     def apply_screen_hints(self):
         """Apply screen positioning and sizing hints"""
         # Set default dimensions
