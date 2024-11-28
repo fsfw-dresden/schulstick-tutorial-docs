@@ -10,10 +10,9 @@
       let 
         pkgs = nixpkgs.legacyPackages.${system};
         
-        commonBuildInputs = with pkgs; with pkgs.python3Packages; [
+        commonPythonBuildInputs = with pkgs.python3Packages; [
           pyqt5
           pyqtwebengine
-          pyqtwebchannel
           pillow
           platformdirs
           qt-material
@@ -23,14 +22,14 @@
           fuzzywuzzy
           python-Levenshtein
           dataclass-wizard
-        ] ++ [ 
-          qt5.qttools  # Adds lrelease and other Qt tools
-          qt5.qtbase
-          qt5.qtwayland
-          ];
-        
-        commonPropagatedBuildInputs = [];
-        
+        ];
+        commonQtBuildInputs = with pkgs.qt5; [ 
+          qttools  # Adds lrelease and other Qt tools
+          qtbase
+          qtwayland
+          qtwebchannel
+        ];
+        commonBuildInputs = commonPythonBuildInputs ++ commonQtBuildInputs;
       in
       rec {
         packages = {
@@ -60,12 +59,12 @@
             
             nativeBuildInputs = with pkgs.python3Packages; [
               hatchling
-            ] ++ [ 
+
               pkgs.qt5.wrapQtAppsHook
               pkgs.qt5.qttools  # Adds lrelease
             ];
             
-            propagatedBuildInputs = commonBuildInputs ++ commonPropagatedBuildInputs;
+            propagatedBuildInputs = commonBuildInputs;
 
             doCheck = false;
           };
@@ -100,7 +99,7 @@
         devShell = pkgs.mkShell {
           buildInputs = with pkgs; [
             python3
-	    debian-devscripts
+            debian-devscripts
           ] ++ commonBuildInputs;
           LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
           
@@ -118,7 +117,7 @@
             echo "  welcome          - Run the welcome wizard"
             echo "  icon-finder      - Run the icon finder utility"
             echo "  portal           - Run the portal app"
-            echo "  tutor           - Run the tutor app"
+            echo "  tutor            - Run the tutor app"
           '';
         };
       }
