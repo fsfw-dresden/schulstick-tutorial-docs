@@ -331,6 +331,11 @@ class TutorView(QWidget):
         
         # Create new window with the modified unit
         new_window = TutorView(modified_unit)
+        
+        # Load the current URL if it exists
+        if self.current_url:
+            new_window.web_view.setUrl(self.current_url)
+            
         new_window.show()
         
         # Close this window
