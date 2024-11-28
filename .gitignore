@@ -15,3 +15,7 @@ tutor-next/export
 *.substvars
 .pybuild
 dev_config
+debian/schulstick/
+dist/*.deb
+dist/*.tar.gz
+dist/*.whl
