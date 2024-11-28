@@ -3,6 +3,7 @@ import sys
 import subprocess
 import requests
 import toml
+import re
 from datetime import datetime
 from packaging.version import Version, parse
 
