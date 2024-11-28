@@ -12,6 +12,7 @@ import subprocess
 from pathlib import Path
 from typing import Optional, Tuple
 from core.models import ViewMode, DockPosition, ScreenHint, UnitMetadata
+from core.preferences import Preferences
 
 class CollapseIcons:
     BOTTOM = ("▼", "▲")
