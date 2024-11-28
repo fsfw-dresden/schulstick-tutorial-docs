@@ -2,11 +2,22 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, List, Optional
 from dataclass_wizard import YAMLWizard
+from enum import Enum
+
+class DockPosition(str, Enum):
+    TOP = "top"
+    BOTTOM = "bottom"
+    LEFT = "left" 
+    RIGHT = "right"
+
+class ViewMode(str, Enum):
+    DOCKED = "docked"
+    FREE = "free"
 
 @dataclass
 class ScreenHint:
-    position: Optional[str] = None  # top, bottom, left, right
-    mode: str = "docked"  # docked or free
+    position: Optional[DockPosition] = None
+    mode: ViewMode = ViewMode.DOCKED
     preferred_width: Optional[int] = None
     preferred_height: Optional[int] = None 
     preferred_aspect: Optional[float] = None
