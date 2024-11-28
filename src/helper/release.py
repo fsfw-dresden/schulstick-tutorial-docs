@@ -4,6 +4,9 @@ import subprocess
 import requests
 import toml
 import re
+
+# Set default email for debian changelog
+os.environ['DEBEMAIL'] = 'info@schulstick.org'
 from datetime import datetime
 from packaging.version import Version, parse
 
