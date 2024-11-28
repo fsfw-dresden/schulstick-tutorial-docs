@@ -107,9 +107,12 @@ Format the output in markdown with sections for Features, Fixes, and Other Chang
     
     if response.status_code == 200:
         return response.json()['content'][0]['text']
-    return format_raw_changelog(commits)
+    else:
+        print(f"Error generating changelog: {response.status_code}")
+        return format_raw_changelog(commits)
 
 def format_raw_changelog(commits):
+    print("Using raw changelog")
     changes = []
     for line in commits.splitlines():
         if line.strip():
