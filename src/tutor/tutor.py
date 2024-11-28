@@ -357,7 +357,7 @@ class TutorView(QWidget):
             if data['type'] == 'urlChanged':
                 self.current_url = QUrl(data['url'])
             elif data['type'] == 'externalLink':
-                self.logger.info(f"External link clicked: {data['url']}")
+                self.logger.warn(f"External link clicked: {data['url']}")
         except json.JSONDecodeError as e:
             self.logger.error(f"Failed to parse JSON message: {e}")
             self.logger.error(f"Raw message was: {message}")
