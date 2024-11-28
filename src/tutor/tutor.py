@@ -58,8 +58,7 @@ class TutorView(QWidget):
         # Create web view with transparent background
         self.web_view = QWebEngineView()
         
-        # Set up URL change monitoring
-        self.web_view.urlChanged.connect(self.on_url_changed)
+        # Set up page load monitoring
         self.web_view.loadFinished.connect(self.on_load_finished)
         
         # Inject JavaScript to monitor navigation
@@ -337,35 +336,20 @@ class TutorView(QWidget):
         # Close this window
         self.close()
 
-    def on_url_changed(self, url: QUrl):
-        """Handle URL changes in the web view"""
-        self.current_url = url
-        self.logger.info(f"URL changed to: {url.toString()}")
 
     def on_load_finished(self, success: bool):
         """Handle page load completion"""
         if success:
-            self.logger.info(f"Page loaded successfully: {self.current_url.toString()}")
-            # Get the actual URL after any redirects
-            self.web_view.page().runJavaScript(
-                "window.location.href",
-                lambda result: self.logger.info(f"Final URL after load: {result}")
-            )
+            self.logger.debug("Page loaded successfully")
         else:
-            self.logger.error(f"Failed to load page: {self.current_url.toString()}")
+            self.logger.error("Failed to load page")
             
     def handle_js_message(self, message):
         """Handle messages from injected JavaScript"""
-        self.logger.warn("Python received raw message: %s", message)
         try:
             data = json.loads(message)
-            self.logger.warn("Parsed JSON data: %s", data)
             if data['type'] == 'urlChanged':
-                self.logger.warn("Processing URL change to: %s", data['url'])
                 self.current_url = QUrl(data['url'])
-                self.logger.warn("Created QUrl object: %s", self.current_url.toString())
-                self.on_url_changed(self.current_url)
-                self.logger.warn("URL change handler completed")
         except json.JSONDecodeError as e:
             self.logger.error(f"Failed to parse JSON message: {e}")
             self.logger.error(f"Raw message was: {message}")
