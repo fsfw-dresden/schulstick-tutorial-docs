@@ -117,6 +117,22 @@ Several utilities are available to help with development:
   nix run .#icon-finder -L
   ```
 
+- **Release Helper**: A tool to manage version releases
+  ```bash
+  # Create a new patch release (default)
+  nix run .#release -L
+  
+  # Create a minor or major release
+  nix run .#release -L minor
+  nix run .#release -L major
+  ```
+  
+  The release helper will:
+  - Bump version numbers in pyproject.toml and flake.nix
+  - Generate changelog from git commits (using Claude AI if ANTHROPIC_API_KEY is set)
+  - Update CHANGELOG.md and debian/changelog
+  - Create a git tag (requires manual push)
+
 ## License
 
 This project is open source and part of the Schulstick initiative.

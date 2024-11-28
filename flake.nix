@@ -93,6 +93,10 @@
             drv = self.packages.${system}.schulstick;
             name = "tutor";
           };
+          release = flake-utils.lib.mkApp {
+            drv = self.packages.${system}.schulstick;
+            name = "release";
+          };
           default = self.apps.${system}.portal;
         };
 

@@ -13,7 +13,8 @@ dependencies = [
     "setuptools",  # For pkg_resources
     "requests>=2.31.0",
     "fuzzywuzzy>=0.18.0",
-    "dataclass-wizard[yaml]>=0.22.2"
+    "dataclass-wizard[yaml]>=0.22.2",
+    "packaging>=23.0"  # For version parsing
 ]
 
 [build-system]
@@ -27,6 +28,9 @@ welcome = "welcome.main:main"
 icon-finder = "helper.icon_finder:main"
 portal = "portal.main:main"
 tutor = "tutor.main:main"
+
+[project.scripts]
+release = "helper.release:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/vision_assistant", "src/welcome", "src/helper", "src/core", "src/portal", "src/tutor"]
