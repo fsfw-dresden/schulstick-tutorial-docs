@@ -91,6 +91,22 @@ class TutorView(QWidget):
                     'type': 'urlChanged',
                     'url': window.location.href
                 }));
+
+                // Add click handler for external links
+                document.addEventListener('click', function(e) {
+                    let target = e.target;
+                    // Find closest anchor tag if clicked element is not an anchor
+                    while (target && target.tagName !== 'A') {
+                        target = target.parentElement;
+                    }
+                    if (target && target.href && !target.href.startsWith(window.location.origin)) {
+                        e.preventDefault();
+                        handler.handleMessage(JSON.stringify({
+                            'type': 'externalLink',
+                            'url': target.href
+                        }));
+                    }
+                }, true);
             });
         };
         document.head.appendChild(script);
@@ -340,6 +356,8 @@ class TutorView(QWidget):
             data = json.loads(message)
             if data['type'] == 'urlChanged':
                 self.current_url = QUrl(data['url'])
+            elif data['type'] == 'externalLink':
+                self.logger.info(f"External link clicked: {data['url']}")
         except json.JSONDecodeError as e:
             self.logger.error(f"Failed to parse JSON message: {e}")
             self.logger.error(f"Raw message was: {message}")
