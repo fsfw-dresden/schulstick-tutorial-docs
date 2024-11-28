@@ -32,13 +32,17 @@ def bump_version(version_str, bump_type='patch'):
     return f"{major}.{minor}.{patch}"
 
 def update_pyproject(pyproject_path, new_version):
-    with open(pyproject_path, 'r') as f:
-        pyproject = toml.load(f)
+    with open(pyproject_path) as f:
+        content = f.read()
     
-    pyproject['project']['version'] = new_version
+    updated = re.sub(
+        r'(version\s*=\s*)"[^"]+"',
+        f'\\1"{new_version}"',
+        content
+    )
     
     with open(pyproject_path, 'w') as f:
-        toml.dump(pyproject, f)
+        f.write(updated)
 
 def update_flake(flake_path, new_version):
     with open(flake_path) as f:
