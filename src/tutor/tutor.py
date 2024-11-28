@@ -58,9 +58,6 @@ class TutorView(QWidget):
         # Create web view with transparent background
         self.web_view = QWebEngineView()
         
-        # Set up page load monitoring
-        self.web_view.loadFinished.connect(self.on_load_finished)
-        
         # Inject JavaScript to monitor navigation
         js_code = """
         // Load QWebChannel JavaScript library
@@ -70,20 +67,17 @@ class TutorView(QWidget):
             // Initialize after library loads
             new QWebChannel(qt.webChannelTransport, function(channel) {
                 window.handler = channel.objects.handler;
-                console.warn('QWebChannel initialized');
                 
                 // Set up hash change monitoring
                 let lastHash = window.location.hash;
                 function pollHash() {
                     if (window.location.hash !== lastHash) {
                         lastHash = window.location.hash;
-                        console.warn('Hash changed:', lastHash);
                         try {
                             handler.handleMessage(JSON.stringify({
                                 'type': 'urlChanged',
                                 'url': window.location.href
                             }));
-                            console.warn('Message sent to Qt');
                         } catch (e) {
                             console.warn('Error sending message:', e);
                         }
@@ -92,7 +86,6 @@ class TutorView(QWidget):
                 
                 // Start polling
                 setInterval(pollHash, 500);
-                console.warn('Hash polling started');
                 
                 // Send initial URL
                 handler.handleMessage(JSON.stringify({
@@ -342,13 +335,6 @@ class TutorView(QWidget):
         self.close()
 
 
-    def on_load_finished(self, success: bool):
-        """Handle page load completion"""
-        if success:
-            self.logger.debug("Page loaded successfully")
-        else:
-            self.logger.error("Failed to load page")
-            
     def handle_js_message(self, message):
         """Handle messages from injected JavaScript"""
         try:
@@ -358,9 +344,3 @@ class TutorView(QWidget):
         except json.JSONDecodeError as e:
             self.logger.error(f"Failed to parse JSON message: {e}")
             self.logger.error(f"Raw message was: {message}")
-        except KeyError as e:
-            self.logger.error(f"Missing required key in message: {e}")
-            self.logger.error(f"Message data was: {data}")
-        except Exception as e:
-            self.logger.error(f"Unexpected error handling message: {e}")
-            self.logger.error(f"Message was: {message}")
