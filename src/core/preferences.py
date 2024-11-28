@@ -31,6 +31,8 @@ supported_locales = ["de_DE", "en_US"]
 class ApplicationSupportPreferences:
     """Application support preferences"""
     welcome_wizard_finished: bool = False
+    allow_external_links: bool = False
+    remember_external_links: bool = False
 
 
 @dataclass

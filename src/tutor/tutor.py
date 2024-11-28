@@ -1,12 +1,14 @@
 from enum import Enum
 import logging
 from PyQt5.QtWidgets import (QWidget, QPushButton, QApplication, QVBoxLayout, 
-                            QHBoxLayout, QSizePolicy, QMenu, QAction)
+                            QHBoxLayout, QSizePolicy, QMenu, QAction,
+                            QMessageBox, QCheckBox)
 from PyQt5.QtCore import Qt, QPropertyAnimation, QEasingCurve, QRect, QUrl, QSize, QObject, pyqtSlot
 from PyQt5.QtGui import QPainter, QColor, QIcon
 from PyQt5.QtWebEngineWidgets import QWebEngineView
 from PyQt5.QtWebChannel import QWebChannel
 import json
+import subprocess
 from pathlib import Path
 from typing import Optional, Tuple
 from core.models import ViewMode, DockPosition, ScreenHint, UnitMetadata
@@ -350,6 +352,53 @@ class TutorView(QWidget):
         self.close()
 
 
+    def handle_external_link(self, url: str) -> None:
+        """Handle clicks on external links"""
+        preferences = Preferences.load()
+        
+        if preferences.support.allow_external_links and not preferences.support.remember_external_links:
+            # Open directly if allowed but not remembered
+            self.open_external_link(url)
+            return
+            
+        if not preferences.support.allow_external_links:
+            # Ask user if not previously allowed
+            msg = QMessageBox(self)
+            msg.setIcon(QMessageBox.Warning)
+            msg.setWindowTitle(self.tr("External Link"))
+            msg.setText(self.tr("Do you want to open this external link?"))
+            msg.setInformativeText(url)
+            
+            # Add remember checkbox
+            remember = QCheckBox(self.tr("Remember my choice"))
+            msg.setCheckBox(remember)
+            
+            # Add custom buttons
+            msg.setStandardButtons(QMessageBox.Yes | QMessageBox.No)
+            msg.setDefaultButton(QMessageBox.No)
+            
+            if msg.exec_() == QMessageBox.Yes:
+                preferences.support.allow_external_links = True
+                if remember.isChecked():
+                    preferences.support.remember_external_links = True
+                preferences.save()
+                self.open_external_link(url)
+        else:
+            # Open if previously allowed and remembered
+            self.open_external_link(url)
+    
+    def open_external_link(self, url: str) -> None:
+        """Open URL in default browser using xdg-open"""
+        try:
+            subprocess.run(['xdg-open', url])
+        except subprocess.CalledProcessError as e:
+            self.logger.error(f"Failed to open URL: {e}")
+            QMessageBox.critical(
+                self,
+                self.tr("Error"),
+                self.tr("Failed to open external link: {url}").format(url=url)
+            )
+
     def handle_js_message(self, message):
         """Handle messages from injected JavaScript"""
         try:
@@ -357,7 +406,7 @@ class TutorView(QWidget):
             if data['type'] == 'urlChanged':
                 self.current_url = QUrl(data['url'])
             elif data['type'] == 'externalLink':
-                self.logger.warn(f"External link clicked: {data['url']}")
+                self.handle_external_link(data['url'])
         except json.JSONDecodeError as e:
             self.logger.error(f"Failed to parse JSON message: {e}")
             self.logger.error(f"Raw message was: {message}")
