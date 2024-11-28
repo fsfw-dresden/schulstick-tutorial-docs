@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 import os
 import re
 import sys
@@ -128,11 +127,8 @@ def update_changelog(changelog_path, new_version, changes):
         f.write(new_content)
 
 def update_debian_changelog(new_version, changes):
-    subprocess.run(['dch', '-v', new_version, 'unstable'], check=True)
+    subprocess.run(['dch', '-v', new_version, 'unstable', changes], check=True)
     
-def create_git_tag(new_version):
-    subprocess.run(['git', 'tag', f'v{new_version}'], check=True)
-
 def main():
     bump_type = sys.argv[1] if len(sys.argv) > 1 else 'patch'
     if bump_type not in ('major', 'minor', 'patch'):
@@ -166,9 +162,6 @@ def main():
     update_changelog(changelog_path, new_version, changes)
     update_debian_changelog(new_version, changes)
     
-    # Create git tag
-    create_git_tag(new_version)
-    
     print(f"""
 Release {new_version} prepared successfully!
 Please review the changes and then:
@@ -176,7 +169,8 @@ Please review the changes and then:
 2. Review debian/changelog
 3. Commit the changes
 4. Push the changes and tag with:
-   git push origin main --tags
+   git tag v{new_version}
+   git push origin v{new_version}
 """)
 
 if __name__ == '__main__':
