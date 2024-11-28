@@ -89,11 +89,12 @@ def generate_changelog_with_claude(commits):
         'anthropic-version': '2023-06-01'
     }
     
-    prompt = f"""Please create a changelog from these git commits. Group related changes together and make it human readable:
+    prompt = f"""Please create a changelog from these git commits. Group related changes together and make it human readable, skip things that are too technical or have been reverted. Concentrate on the features and fixes that are user relevant:
 
 {commits}
 
-Format the output in markdown with sections for Features, Fixes, and Other Changes."""
+Summary should be 2 or three short sentences.
+Format the output in markdown with sections for Summary, Features, Fixes, and Other Changes."""
 
     response = requests.post(
         'https://api.anthropic.com/v1/messages',
@@ -136,7 +137,9 @@ def update_changelog(changelog_path, new_version, changes):
         f.write(new_content)
 
 def update_debian_changelog(new_version, changes):
-    subprocess.run(['dch', '-v', new_version, 'unstable', changes], check=True)
+    # First create entry with placeholder
+    subprocess.run(['dch', '-v', new_version, 'unstable', changes.replace('\n', '\n  ')], check=True)
+    
     
 def main():
     bump_type = sys.argv[1] if len(sys.argv) > 1 else 'patch'
