@@ -8,7 +8,6 @@ from core.preferences import Gender
 from welcome.components.star_rating import StarRating
 from PyQt5.QtCore import Qt, QSize
 from PyQt5.QtGui import QIcon
-from vision_assistant.tutor import TutorView
 from core.preferences import Preferences, SkillLevelPreferences
 
 
