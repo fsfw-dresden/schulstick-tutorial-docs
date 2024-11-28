@@ -27,5 +27,25 @@
         <source>Dock Bottom</source>
         <translation>Unten andocken</translation>
     </message>
+    <message>
+        <source>External Link</source>
+        <translation>Externer Link</translation>
+    </message>
+    <message>
+        <source>Do you want to open this external link?</source>
+        <translation>Möchten Sie diesen externen Link öffnen?</translation>
+    </message>
+    <message>
+        <source>Remember my choice</source>
+        <translation>Meine Auswahl merken</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <translation>Fehler</translation>
+    </message>
+    <message>
+        <source>Failed to open external link: {url}</source>
+        <translation>Fehler beim Öffnen des externen Links: {url}</translation>
+    </message>
 </context>
 </TS>
