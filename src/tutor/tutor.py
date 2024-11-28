@@ -71,29 +71,29 @@ class TutorView(QWidget):
             // Initialize after library loads
             new QWebChannel(qt.webChannelTransport, function(channel) {
                 window.handler = channel.objects.handler;
-                console.log('QWebChannel initialized');
+                console.warn('QWebChannel initialized');
                 
                 // Set up hash change monitoring
                 let lastHash = window.location.hash;
                 function pollHash() {
                     if (window.location.hash !== lastHash) {
                         lastHash = window.location.hash;
-                        console.log('Hash changed:', lastHash);
+                        console.warn('Hash changed:', lastHash);
                         try {
                             handler.handleMessage(JSON.stringify({
                                 'type': 'urlChanged',
                                 'url': window.location.href
                             }));
-                            console.log('Message sent to Qt');
+                            console.warn('Message sent to Qt');
                         } catch (e) {
-                            console.error('Error sending message:', e);
+                            console.warn('Error sending message:', e);
                         }
                     }
                 }
                 
                 // Start polling
                 setInterval(pollHash, 500);
-                console.log('Hash polling started');
+                console.warn('Hash polling started');
                 
                 // Send initial URL
                 handler.handleMessage(JSON.stringify({
