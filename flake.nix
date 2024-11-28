@@ -19,9 +19,11 @@
           setuptools  # Provides pkg_resources
           requests
           pyyaml
+          toml
           fuzzywuzzy
           python-Levenshtein
           dataclass-wizard
+          packaging # for release script
         ];
         commonQtBuildInputs = with pkgs.qt5; [ 
           qttools  # Adds lrelease and other Qt tools
