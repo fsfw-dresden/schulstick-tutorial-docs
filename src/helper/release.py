@@ -1,16 +1,18 @@
 import os
-import re
 import sys
 import subprocess
 import requests
+import toml
 from datetime import datetime
 from packaging.version import Version, parse
 
 def get_current_version(pyproject_path):
-    with open(pyproject_path) as f:
-        content = f.read()
-        match = re.search(r'version\s*=\s*"([^"]+)"', content)
-        return match.group(1) if match else None
+    try:
+        with open(pyproject_path, 'r') as f:
+            pyproject = toml.load(f)
+            return pyproject['project']['version']
+    except (FileNotFoundError, KeyError):
+        return None
 
 def bump_version(version_str, bump_type='patch'):
     v = parse(version_str)
@@ -29,17 +31,13 @@ def bump_version(version_str, bump_type='patch'):
     return f"{major}.{minor}.{patch}"
 
 def update_pyproject(pyproject_path, new_version):
-    with open(pyproject_path) as f:
-        content = f.read()
+    with open(pyproject_path, 'r') as f:
+        pyproject = toml.load(f)
     
-    updated = re.sub(
-        r'(version\s*=\s*)"[^"]+"',
-        f'\\1"{new_version}"',
-        content
-    )
+    pyproject['project']['version'] = new_version
     
     with open(pyproject_path, 'w') as f:
-        f.write(updated)
+        toml.dump(pyproject, f)
 
 def update_flake(flake_path, new_version):
     with open(flake_path) as f:
