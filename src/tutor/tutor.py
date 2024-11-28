@@ -2,7 +2,7 @@ from enum import Enum
 import logging
 from PyQt5.QtWidgets import (QWidget, QPushButton, QApplication, QVBoxLayout, 
                             QHBoxLayout, QSizePolicy, QMenu, QAction)
-from PyQt5.QtCore import Qt, QPropertyAnimation, QEasingCurve, QRect, QUrl, QSize
+from PyQt5.QtCore import Qt, QPropertyAnimation, QEasingCurve, QRect, QUrl, QSize, QObject, pyqtSlot
 from PyQt5.QtWebEngineCore import QWebEngineUrlRequestInterceptor
 from PyQt5.QtGui import QPainter, QColor, QIcon
 from PyQt5.QtWebEngineWidgets import QWebEngineView
@@ -66,26 +66,39 @@ class TutorView(QWidget):
         js_code = """
         (function() {
             let lastHash = window.location.hash;
-
-            // Poll for hash changes - this is needed because the liascript framework currently prevents default navigation events from firing
-            function pollHash() {
-                if (window.location.hash !== lastHash) {
-                    lastHash = window.location.hash;
-                    window.qt.webChannelTransport.send(
-                        JSON.stringify({
+            
+            // Initialize connection to Qt
+            new QWebChannel(qt.webChannelTransport, function(channel) {
+                window.handler = channel.objects.handler;
+                
+                // Poll for hash changes
+                function pollHash() {
+                    if (window.location.hash !== lastHash) {
+                        lastHash = window.location.hash;
+                        handler.handleMessage(JSON.stringify({
                             'type': 'urlChanged',
-                        'url': window.location.href
-                    })
-                );
+                            'url': window.location.href
+                        }));
+                    }
                 }
-            }
-
-            setInterval(pollHash, 500);
+                
+                setInterval(pollHash, 500);
+            });
         })();
         """
         
-        # Create web channel to receive JavaScript messages
+        # Create handler object for JavaScript messages
+        class Handler(QObject):
+            @pyqtSlot(str)
+            def handleMessage(self, message):
+                self.parent().handle_js_message(message)
+                
+        self.handler = Handler()
+        self.handler.parent = lambda: self
+        
+        # Create web channel and expose handler
         self.channel = QWebChannel()
+        self.channel.registerObject('handler', self.handler)
         self.web_view.page().setWebChannel(self.channel)
         
         # Add JavaScript injection after page loads
