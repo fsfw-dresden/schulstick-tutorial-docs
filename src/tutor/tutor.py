@@ -356,14 +356,14 @@ class TutorView(QWidget):
             
     def handle_js_message(self, message):
         """Handle messages from injected JavaScript"""
-        self.logger.warn("Python received raw message:", message)
+        self.logger.warn("Python received raw message: %s", message)
         try:
             data = json.loads(message)
-            self.logger.warn("Parsed JSON data:", data)
+            self.logger.warn("Parsed JSON data: %s", data)
             if data['type'] == 'urlChanged':
-                self.logger.warn(f"Processing URL change to: {data['url']}")
+                self.logger.warn("Processing URL change to: %s", data['url'])
                 self.current_url = QUrl(data['url'])
-                self.logger.warn("Created QUrl object:", self.current_url.toString())
+                self.logger.warn("Created QUrl object: %s", self.current_url.toString())
                 self.on_url_changed(self.current_url)
                 self.logger.warn("URL change handler completed")
         except json.JSONDecodeError as e:
