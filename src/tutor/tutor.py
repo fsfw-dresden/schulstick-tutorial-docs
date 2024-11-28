@@ -69,27 +69,38 @@ class TutorView(QWidget):
         script.src = 'qrc:///qtwebchannel/qwebchannel.js';
         script.onload = function() {
             // Initialize after library loads
-            (function() {
-                let lastHash = window.location.hash;
+            new QWebChannel(qt.webChannelTransport, function(channel) {
+                window.handler = channel.objects.handler;
+                console.log('QWebChannel initialized');
                 
-                // Initialize connection to Qt
-                new QWebChannel(qt.webChannelTransport, function(channel) {
-                    window.handler = channel.objects.handler;
-                    
-                    // Poll for hash changes
-                    function pollHash() {
-                        if (window.location.hash !== lastHash) {
-                            lastHash = window.location.hash;
+                // Set up hash change monitoring
+                let lastHash = window.location.hash;
+                function pollHash() {
+                    if (window.location.hash !== lastHash) {
+                        lastHash = window.location.hash;
+                        console.log('Hash changed:', lastHash);
+                        try {
                             handler.handleMessage(JSON.stringify({
                                 'type': 'urlChanged',
                                 'url': window.location.href
                             }));
+                            console.log('Message sent to Qt');
+                        } catch (e) {
+                            console.error('Error sending message:', e);
                         }
                     }
-                    
-                    setInterval(pollHash, 500);
-                });
-            })();
+                }
+                
+                // Start polling
+                setInterval(pollHash, 500);
+                console.log('Hash polling started');
+                
+                // Send initial URL
+                handler.handleMessage(JSON.stringify({
+                    'type': 'urlChanged',
+                    'url': window.location.href
+                }));
+            });
         };
         document.head.appendChild(script);
         """
@@ -346,8 +357,11 @@ class TutorView(QWidget):
     def handle_js_message(self, message):
         """Handle messages from injected JavaScript"""
         try:
+            self.logger.info(f"Received message from JavaScript: {message}")
             data = json.loads(message)
             if data['type'] == 'urlChanged':
                 self.logger.info(f"JavaScript detected URL change: {data['url']}")
+                self.current_url = QUrl(data['url'])
+                self.on_url_changed(self.current_url)
         except Exception as e:
             self.logger.error(f"Error handling JavaScript message: {e}")
