@@ -356,12 +356,22 @@ class TutorView(QWidget):
             
     def handle_js_message(self, message):
         """Handle messages from injected JavaScript"""
+        self.logger.warn("Python received raw message:", message)
         try:
-            self.logger.info(f"Received message from JavaScript: {message}")
             data = json.loads(message)
+            self.logger.warn("Parsed JSON data:", data)
             if data['type'] == 'urlChanged':
-                self.logger.info(f"JavaScript detected URL change: {data['url']}")
+                self.logger.warn(f"Processing URL change to: {data['url']}")
                 self.current_url = QUrl(data['url'])
+                self.logger.warn("Created QUrl object:", self.current_url.toString())
                 self.on_url_changed(self.current_url)
+                self.logger.warn("URL change handler completed")
+        except json.JSONDecodeError as e:
+            self.logger.error(f"Failed to parse JSON message: {e}")
+            self.logger.error(f"Raw message was: {message}")
+        except KeyError as e:
+            self.logger.error(f"Missing required key in message: {e}")
+            self.logger.error(f"Message data was: {data}")
         except Exception as e:
-            self.logger.error(f"Error handling JavaScript message: {e}")
+            self.logger.error(f"Unexpected error handling message: {e}")
+            self.logger.error(f"Message was: {message}")
