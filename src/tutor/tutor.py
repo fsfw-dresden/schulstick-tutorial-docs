@@ -65,29 +65,22 @@ class TutorView(QWidget):
         # Inject JavaScript to monitor navigation
         js_code = """
         (function() {
-            let lastUrl = window.location.href;
-            const observer = new MutationObserver(function() {
-                if (lastUrl !== window.location.href) {
-                    lastUrl = window.location.href;
+            let lastHash = window.location.hash;
+
+            // Poll for hash changes - this is needed because the liascript framework currently prevents default navigation events from firing
+            function pollHash() {
+                if (window.location.hash !== lastHash) {
+                    lastHash = window.location.hash;
                     window.qt.webChannelTransport.send(
                         JSON.stringify({
                             'type': 'urlChanged',
-                            'url': lastUrl
-                        })
-                    );
-                }
-            });
-            observer.observe(document, {subtree: true, childList: true});
-            
-            // Monitor hash changes
-            window.addEventListener('hashchange', function() {
-                window.qt.webChannelTransport.send(
-                    JSON.stringify({
-                        'type': 'urlChanged',
                         'url': window.location.href
                     })
                 );
-            });
+                }
+            }
+
+            setInterval(pollHash, 500);
         })();
         """
         
