@@ -43,19 +43,24 @@
             
             # Build and install translations
             preBuild = ''
-              cd src/welcome
-              mkdir -p translations
-              for ts in translations/*.ts; do
-                ${pkgs.qt5.qttools.dev}/bin/lrelease $ts
+              for package in welcome tutor; do
+                cd src/$package
+                mkdir -p translations
+                for ts in translations/*.ts; do
+                  ${pkgs.qt5.qttools.dev}/bin/lrelease $ts
+                done
+                cd ../..
               done
-              cd ../..
             '';
 
             # Include data files in the package
             postInstall = ''
               # Copy translation files
-              mkdir -p $out/${pkgs.python3.sitePackages}/welcome/translations/
-              cp -r src/welcome/translations/*.qm $out/${pkgs.python3.sitePackages}/welcome/translations/
+              # for all translations
+              for package in welcome tutor; do  
+                mkdir -p $out/${pkgs.python3.sitePackages}/$package/translations/
+                cp -r src/$package/translations/*.qm $out/${pkgs.python3.sitePackages}/$package/translations/
+              done
               cp -r $src/src/vision_assistant/assets $out/${pkgs.python3.sitePackages}/vision_assistant/
             '';
             
@@ -76,27 +81,27 @@
         
         apps = {
           vision-assistant = flake-utils.lib.mkApp { 
-            drv = self.packages.${system}.schulstick;
+            drv = self.packages.${system}.schulstick-portal;
             name = "vision-assistant";
           };
           welcome = flake-utils.lib.mkApp {
-            drv = self.packages.${system}.schulstick;
+            drv = self.packages.${system}.schulstick-portal;
             name = "welcome";
           };
           icon-finder = flake-utils.lib.mkApp {
-            drv = self.packages.${system}.schulstick;
+            drv = self.packages.${system}.schulstick-portal;
             name = "icon-finder";
           };
           portal = flake-utils.lib.mkApp {
-            drv = self.packages.${system}.schulstick;
+            drv = self.packages.${system}.schulstick-portal;
             name = "portal";
           };
           tutor = flake-utils.lib.mkApp {
-            drv = self.packages.${system}.schulstick;
+            drv = self.packages.${system}.schulstick-portal;
             name = "tutor";
           };
           release = flake-utils.lib.mkApp {
-            drv = self.packages.${system}.schulstick;
+            drv = self.packages.${system}.schulstick-portal;
             name = "release";
           };
           default = self.apps.${system}.portal;

@@ -14,6 +14,16 @@ from typing import Optional, Tuple
 from core.models import ViewMode, DockPosition, ScreenHint, UnitMetadata
 from core.preferences import Preferences
 
+# Translation context for all tutor pages
+TRANSLATION_CONTEXT = "TutorView"
+
+def tr(text: str, *args) -> str:
+    """Helper function for translations with variable substitution"""
+    translated = QApplication.translate(TRANSLATION_CONTEXT, text)
+    if args:
+        return translated % args
+    return translated
+
 class CollapseIcons:
     BOTTOM = ("▼", "▲")
     TOP = ("▲", "▼")
@@ -310,11 +320,11 @@ class TutorView(QWidget):
         
         # Create actions for each dock mode
         actions = {
-            (ViewMode.FREE, None): (QIcon.fromTheme("window"), self.tr("Undocked")),
-            (ViewMode.DOCKED, DockPosition.LEFT): (QIcon.fromTheme("format-justify-left"), self.tr("Dock Left")),
-            (ViewMode.DOCKED, DockPosition.RIGHT): (QIcon.fromTheme("format-justify-right"), self.tr("Dock Right")),
-            (ViewMode.DOCKED, DockPosition.TOP): (QIcon.fromTheme("format-text-direction-vertical"), self.tr("Dock Top")),
-            (ViewMode.DOCKED, DockPosition.BOTTOM): (QIcon.fromTheme("format-text-direction-vertical"), self.tr("Dock Bottom"))
+            (ViewMode.FREE, None): (QIcon.fromTheme("window"), tr("Undocked")),
+            (ViewMode.DOCKED, DockPosition.LEFT): (QIcon.fromTheme("format-justify-left"), tr("Dock Left")),
+            (ViewMode.DOCKED, DockPosition.RIGHT): (QIcon.fromTheme("format-justify-right"), tr("Dock Right")),
+            (ViewMode.DOCKED, DockPosition.TOP): (QIcon.fromTheme("format-text-direction-vertical"), tr("Dock Top")),
+            (ViewMode.DOCKED, DockPosition.BOTTOM): (QIcon.fromTheme("format-text-direction-vertical"), tr("Dock Bottom"))
         }
         
         for (mode, position), (icon, text) in actions.items():
@@ -357,21 +367,21 @@ class TutorView(QWidget):
         """Handle clicks on external links"""
         preferences = Preferences.load()
         
-        if preferences.support.allow_external_links and not preferences.support.remember_external_links:
-            # Open directly if allowed but not remembered
+        if preferences.support.allow_external_links  and preferences.support.remember_external_links:
+            # Open directly if allowed and remembered
             self.open_external_link(url)
             return
             
-        if not preferences.support.allow_external_links:
+        if not preferences.support.remember_external_links:
             # Ask user if not previously allowed
             msg = QMessageBox(self)
             msg.setIcon(QMessageBox.Warning)
-            msg.setWindowTitle(self.tr("External Link"))
-            msg.setText(self.tr("Do you want to open this external link?"))
+            msg.setWindowTitle(tr("External Link"))
+            msg.setText(tr("Do you want to open this external link?"))
             msg.setInformativeText(url)
             
             # Add remember checkbox
-            remember = QCheckBox(self.tr("Remember my choice"))
+            remember = QCheckBox(tr("Remember my choice"))
             msg.setCheckBox(remember)
             
             # Add custom buttons
@@ -384,9 +394,6 @@ class TutorView(QWidget):
                     preferences.support.remember_external_links = True
                 preferences.save()
                 self.open_external_link(url)
-        else:
-            # Open if previously allowed and remembered
-            self.open_external_link(url)
     
     def open_external_link(self, url: str) -> None:
         """Open URL in default browser using xdg-open"""

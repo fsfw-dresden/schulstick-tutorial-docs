@@ -38,10 +38,13 @@ packages = ["src/vision_assistant", "src/welcome", "src/helper", "src/core", "sr
 "src/vision_assistant/assets" = "vision_assistant/assets"
 "src/welcome/translations" = "welcome/translations"
 "src/portal/translations" = "portal/translations"
+"src/tutor/translations" = "tutor/translations"
 
 [tool.hatch.build]
 include = [
     "src/welcome/translations/*.ts",
     "src/welcome/translations/*.qm",
+    "src/tutor/translations/*.ts",
+    "src/tutor/translations/*.qm",
     "src/vision_assistant/assets/*"
 ]

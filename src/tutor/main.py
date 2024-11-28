@@ -1,7 +1,7 @@
 import sys
 from pathlib import Path
 from PyQt5.QtWidgets import QApplication
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import QTranslator, QLocale, Qt
 from core.models import UnitMetadata
 from tutor.tutor import TutorView
 
@@ -11,6 +11,21 @@ def main():
     QApplication.setAttribute(Qt.AA_UseHighDpiPixmaps)
     
     app = QApplication(sys.argv)
+
+    # Initialize translation
+    translator = QTranslator()
+    locale = QLocale()
+    try:
+        import pkg_resources
+        translations_dir = pkg_resources.resource_filename('tutor', 'translations')
+    except (ImportError, pkg_resources.DistributionNotFound):
+        translations_dir = os.path.join(os.path.dirname(__file__), "translations")
+    
+    # Try loading translations in order of preference
+    if (translator.load(locale, "tutor", "_", translations_dir) or
+        translator.load(QLocale(locale.language()), "tutor", "_", translations_dir) or
+        (locale.language() != QLocale.English and translator.load("tutor_en", translations_dir))):
+        app.installTranslator(translator)
     
     if len(sys.argv) > 1:
         # Load unit from provided directory

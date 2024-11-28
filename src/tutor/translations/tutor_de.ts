@@ -33,7 +33,7 @@
     </message>
     <message>
         <source>Do you want to open this external link?</source>
-        <translation>Möchten Sie diesen externen Link öffnen?</translation>
+        <translation>Möchtest du diesen externen Link öffnen?</translation>
     </message>
     <message>
         <source>Remember my choice</source>
