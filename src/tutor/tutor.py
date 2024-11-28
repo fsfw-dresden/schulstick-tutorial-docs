@@ -64,27 +64,34 @@ class TutorView(QWidget):
         
         # Inject JavaScript to monitor navigation
         js_code = """
-        (function() {
-            let lastHash = window.location.hash;
-            
-            // Initialize connection to Qt
-            new QWebChannel(qt.webChannelTransport, function(channel) {
-                window.handler = channel.objects.handler;
+        // Load QWebChannel JavaScript library
+        var script = document.createElement('script');
+        script.src = 'qrc:///qtwebchannel/qwebchannel.js';
+        script.onload = function() {
+            // Initialize after library loads
+            (function() {
+                let lastHash = window.location.hash;
                 
-                // Poll for hash changes
-                function pollHash() {
-                    if (window.location.hash !== lastHash) {
-                        lastHash = window.location.hash;
-                        handler.handleMessage(JSON.stringify({
-                            'type': 'urlChanged',
-                            'url': window.location.href
-                        }));
+                // Initialize connection to Qt
+                new QWebChannel(qt.webChannelTransport, function(channel) {
+                    window.handler = channel.objects.handler;
+                    
+                    // Poll for hash changes
+                    function pollHash() {
+                        if (window.location.hash !== lastHash) {
+                            lastHash = window.location.hash;
+                            handler.handleMessage(JSON.stringify({
+                                'type': 'urlChanged',
+                                'url': window.location.href
+                            }));
+                        }
                     }
-                }
-                
-                setInterval(pollHash, 500);
-            });
-        })();
+                    
+                    setInterval(pollHash, 500);
+                });
+            })();
+        };
+        document.head.appendChild(script);
         """
         
         # Create handler object for JavaScript messages
