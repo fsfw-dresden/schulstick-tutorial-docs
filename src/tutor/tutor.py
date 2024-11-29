@@ -13,6 +13,7 @@ from pathlib import Path
 from typing import Optional, Tuple
 from core.models import ViewMode, DockPosition, ScreenHint, UnitMetadata
 from core.preferences import Preferences
+from core.launcher import ProgramLauncher
 
 # Translation context for all tutor pages
 TRANSLATION_CONTEXT = "TutorView"
@@ -176,6 +177,10 @@ class TutorView(QWidget):
         # Initialize screen geometry and apply hints
         self.update_screen_geometry()
         self.apply_screen_hints()
+        
+        # Launch associated program if specified
+        if self.unit.program_launch_info:
+            self.program_process = ProgramLauncher.launch_program(self.unit)
 
     def setup_toggle_button(self):
         """Setup the toggle button appearance and position"""
