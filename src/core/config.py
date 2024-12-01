@@ -9,6 +9,8 @@ from platformdirs import site_config_dir
 class PortalConfig(YAMLWizard):
     """Configuration for the Schulstick Portal"""
     unit_paths: List[str]  # Paths to unit directories (relative or absolute)
+    liascript_devserver: str = "http://localhost:3000"
+    liascript_html_path: str = "/liascript/index.html"
 
     @classmethod
     def load(cls) -> 'PortalConfig':

@@ -1,3 +1,5 @@
 # Default configuration for Schulstick Portal
 unit_paths:
   - /usr/share/schulstick/tutor-next/markdown
+liascript_devserver: http://localhost:3000
+liascript_html_path: /liascript/index.html

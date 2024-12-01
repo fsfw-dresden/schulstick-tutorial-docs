@@ -3,10 +3,7 @@ from pathlib import Path
 from typing import Dict, List, Optional
 from dataclass_wizard import YAMLWizard
 from enum import Enum
-
-LIASCRIPT_DEVSERVER = "http://localhost:3000"
-LIASCRIPT_HTML_PATH = "/liascript/index.html"
-LIASCRIPT_URL = f"{LIASCRIPT_DEVSERVER}{LIASCRIPT_HTML_PATH}?{LIASCRIPT_DEVSERVER}/"
+from core.config import PortalConfig
 
 class DockPosition(str, Enum):
     TOP = "top"
@@ -50,7 +47,9 @@ class UnitMetadata(YAMLWizard):
 
     @property
     def tutorial_url(self) -> Optional[str]:
-         return f"{LIASCRIPT_URL}{Path(self.unit_path) / self.markdown_file}"
+        config = PortalConfig.load()
+        liascript_url = f"{config.liascript_devserver}{config.liascript_html_path}?{config.liascript_devserver}/"
+        return f"{liascript_url}{Path(self.unit_path) / self.markdown_file}"
 
     @property
     def markdown_path(self) -> Optional[Path]:
