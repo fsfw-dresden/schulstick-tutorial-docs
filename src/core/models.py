@@ -4,6 +4,10 @@ from typing import Dict, List, Optional
 from dataclass_wizard import YAMLWizard
 from enum import Enum
 
+LIASCRIPT_DEVSERVER = "http://localhost:3000"
+LIASCRIPT_HTML_PATH = "/liascript/index.html"
+LIASCRIPT_URL = f"{LIASCRIPT_DEVSERVER}{LIASCRIPT_HTML_PATH}?{LIASCRIPT_DEVSERVER}/"
+
 class DockPosition(str, Enum):
     TOP = "top"
     BOTTOM = "bottom"
@@ -23,6 +27,12 @@ class ScreenHint:
     preferred_aspect: Optional[float] = None
 
 @dataclass
+class ProgramLaunchInfo:
+    bin_name: str
+    path: Optional[str] = None
+    args: Optional[List[str]] = None
+
+@dataclass
 class UnitMetadata(YAMLWizard):
     title: str
     tags: List[str]
@@ -36,14 +46,11 @@ class UnitMetadata(YAMLWizard):
     unit_url: str = None
     html_path: str = None
     unit_path: str = None
+    program_launch_info: Optional[ProgramLaunchInfo] = None
 
     @property
     def tutorial_url(self) -> Optional[str]:
-        if self.unit_url is None:
-            if self.unit_path is None or self.html_path is None:
-                return None
-            return f"file://{Path(self.unit_path).absolute() / self.html_path}"
-        return self.unit_url
+         return f"{LIASCRIPT_URL}{Path(self.unit_path) / self.markdown_file}"
 
     @property
     def markdown_path(self) -> Optional[Path]:
