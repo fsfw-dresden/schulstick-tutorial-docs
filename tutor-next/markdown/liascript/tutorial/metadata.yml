@@ -10,9 +10,8 @@ skillLevelPerSubject:
   computer_science: 1
 markdownFile: "tutorial.md"
 previewImage: "preview.png"
-unitUrl: "http://localhost:3000/liascript/tutorial/output/"
 htmlPath: "output/index.html"
 screenHint:
-  position: "top"
-  mode: "free"
+  position: "right"
+  mode: "docked"
 

@@ -19,3 +19,4 @@ debian/schulstick/
 dist/*.deb
 dist/*.tar.gz
 dist/*.whl
+*.qm
