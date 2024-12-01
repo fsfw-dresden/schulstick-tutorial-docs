@@ -2,11 +2,11 @@ import os
 from pathlib import Path
 from typing import List, Optional
 from dataclasses import dataclass
-import yaml
-from appdirs import site_config_dir
+from dataclass_wizard import YAMLWizard
+from platformdirs import site_config_dir
 
 @dataclass
-class PortalConfig:
+class PortalConfig(YAMLWizard):
     """Configuration for the Schulstick Portal"""
     unit_paths: List[str]  # Paths to unit directories (relative or absolute)
 
@@ -18,12 +18,7 @@ class PortalConfig:
         if not config_path.exists():
             return cls.get_default_config()
             
-        with open(config_path) as f:
-            config_data = yaml.safe_load(f)
-            
-        return cls(
-            unit_paths=config_data.get('unit_paths', ['tutor-next/markdown'])
-        )
+        return cls.from_yaml_file(config_path)
     
     @staticmethod
     def _get_config_path() -> Path:
@@ -31,7 +26,7 @@ class PortalConfig:
         if os.getenv('DEVELOPMENT'):
             return Path('./dev_config/schulstick-portal-config.yml')
         else:
-            config_dir = site_config_dir('schulstick', multipath=True)
+            config_dir = site_config_dir(appname='schulstick', multipath=True)
             return Path(config_dir) / 'schulstick-portal-config.yml'
     
     @classmethod
@@ -40,3 +35,10 @@ class PortalConfig:
         return cls(
             unit_paths=['tutor-next/markdown']
         )
+
+    def save(self, path: Optional[Path] = None) -> None:
+        """Save config to YAML file"""
+        if path is None:
+            path = self._get_config_path()
+        path.parent.mkdir(parents=True, exist_ok=True)
+        self.to_yaml_file(path)
