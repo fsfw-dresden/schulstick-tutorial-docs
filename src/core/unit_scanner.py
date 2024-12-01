@@ -2,25 +2,32 @@ from pathlib import Path
 from typing import List
 from fuzzywuzzy import fuzz
 from core.models import UnitMetadata
+from core.config import PortalConfig
 
 class UnitScanner:
-    def __init__(self, base_path: str = "tutor-next/markdown"):
-        self.base_path = Path(base_path)
+    def __init__(self):
+        self.config = PortalConfig.load()
         self.units: List[UnitMetadata] = []
         self._scan_units()
     
     def _scan_units(self) -> None:
-        """Recursively scan for metadata.yml files and parse them"""
+        """Recursively scan for metadata.yml files in all configured paths"""
         seen_titles = set()
-        for metadata_file in self.base_path.rglob("metadata.yml"):
-            try:
-                unit = UnitMetadata.from_yaml_file(metadata_file)
-                if unit.title not in seen_titles:
-                    unit.unit_path = metadata_file.parent
-                    self.units.append(unit)
-                    seen_titles.add(unit.title)
-            except Exception as e:
-                print(f"Error parsing {metadata_file}: {e}")
+        
+        for base_path in self.config.unit_paths:
+            path = Path(base_path)
+            if not path.exists():
+                continue
+                
+            for metadata_file in path.rglob("metadata.yml"):
+                try:
+                    unit = UnitMetadata.from_yaml_file(metadata_file)
+                    if unit.title not in seen_titles:
+                        unit.unit_path = metadata_file.parent
+                        self.units.append(unit)
+                        seen_titles.add(unit.title)
+                except Exception as e:
+                    print(f"Error parsing {metadata_file}: {e}")
     
     def search(self, query: str, min_score: int = 60) -> List[UnitMetadata]:
         """
