@@ -1,0 +1,3 @@
+# Default configuration for Schulstick Portal
+unit_paths:
+  - /usr/share/schulstick/tutor-next/markdown

@@ -41,3 +41,6 @@ override_dh_auto_install:
 	# Install translations
 	mkdir -p debian/schulstick/usr/share/schulstick/translations
 	cp src/welcome/translations/*.qm debian/schulstick/usr/share/schulstick/translations/
+	# Install default config
+	mkdir -p debian/schulstick/etc/schulstick
+	cp debian/schulstick-portal-config.yml debian/schulstick/etc/schulstick/
