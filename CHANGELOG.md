@@ -2,11 +2,16 @@
 
 ## Summary
 
-Mainly work on TutorView. Improve link handling and different view modes and orientation. Also added a release script
-and a x11docker method to test application under debian bookworm.
+Mainly work on TutorView and configuration system improvements. Added configuration management, unit scanning enhancements,
+and LiaScript integration. Also improved link handling, view modes, and orientation support.
 
 ## Features
 
+- Added configuration system with environment-aware loading and default settings
+- Implemented config system using dataclass_wizard for YAML serialization
+- Added program launcher and auto-launch functionality for units
+- Added metadata.yml for beginner Blender tutorial
+- Enhanced release script functionality
 - Added German translations for external link dialog strings
 - Implemented external link handling with user preferences and `xdg-open` support
 - Added external link click detection and logging in the WebEngine view
@@ -25,6 +30,10 @@ and a x11docker method to test application under debian bookworm.
 
 ## Other Changes
 
+- Refactored UnitScanner to use config for scanning unit paths
+- Moved LiaScript configuration from hardcoded constants to PortalConfig
+- Added LiaScript URL generation and ProgramLaunchInfo to UnitMetadata
 - Refactored translation handling for multiple packages
 - Removed unused imports and simplify page load handling
 - Enhanced JavaScript message handling with detailed logging and error handling
+- Fixed DE build pipeline
