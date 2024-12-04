@@ -113,6 +113,8 @@
             debian-devscripts
           ] ++ commonBuildInputs;
           LD_LIBRARY_PATH = "${pkgs.stdenv.cc.cc.lib}/lib";
+
+          QT_QPA_PLATFORM_PLUGIN_PATH="${pkgs.qt5.qtbase.bin}/lib/qt-${pkgs.qt5.qtbase.version}/plugins/platforms";
           
           # Add shell aliases for development convenience
           shellHook = ''
