@@ -1,6 +1,0 @@
-FROM debian:bookworm
-
-# Create schulstick user
-RUN useradd -m schulstick
-
-WORKDIR /app
