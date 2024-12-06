@@ -1,0 +1,14 @@
+[book]
+authors = ["Johannes Lötzsch"]
+language = "de"
+multilingual = false
+src = "src"
+title = "Documentation about creating Tutorials for Lernstick"
+[preprocessor]
+[preprocessor.mermaid]
+command = "mdbook-mermaid"
+[output]
+[output.html]
+git-repository-url = "https://github.com/fsfw-dresden/schulstick-tutorial-docs"
+edit-url-template = "https://github.com/fsfw-dresden/schulstick-tutorial-docs/tree/main/{path}"
+additional-js =["mermaid.min.js", "mermaid-init.js"]
