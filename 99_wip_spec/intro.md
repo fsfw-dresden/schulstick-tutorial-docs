@@ -6,7 +6,8 @@ title: Bereitstellen neuer Tutorials für den Schulstick
 <!-- TODO: (Warum) ist metadata.yml (in späterer zukunft) erforderlich/sinnvoll, statt die metadaten direkt in den markdown-metadaten zu speichern? -->
 
 <!-- TODO: gibt es ein glosar für das wording das wir im kontext des schulsticks verwenden? 
- * „Anleitung“ / „Tutorial“ ?
+ * „Kurse“ anstatt „Tutorial“, „Lerninhalte“, „Lernpakete“ — Der Begriff wie ihn auch Liascript verwendet
+ * Diese enthalten „Lektionen“ — Frage: Wie mappt das auf Ordner und einzelne *.md?
  * generischer Name für (Schul-)Stick (aka [`usb-live-linux` variants](https://github.com/fsfw-dresden/usb-live-linux/tree/main/variants.build))
 -->
 
