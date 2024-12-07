@@ -2,7 +2,7 @@
   description = "Documentation about creating Tutorials for Lernstick";
 
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/nixos-21.11";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-24.11";
   };
 
   outputs = { self, nixpkgs, ... }:
@@ -10,12 +10,14 @@
     system = "x86_64-linux";
     pkgs = import nixpkgs {inherit system;};
     inherit (pkgs) lib;
-  in {
-
-    legacyPackages.${system} = { inherit pkgs; };
-
+    nativeBuildInputs = with pkgs; [
+      mdbook
+      mdbook-linkcheck
+      mdbook-mermaid
+    ];
+  in rec {
     devShells.${system}.ci = pkgs.mkShell {
-      nativeBuildInputs = with pkgs; [ mdbook mdbook-mermaid ];
+      inherit nativeBuildInputs;
       shellHook = ''
         mdbook-mermaid install
         mdbook build
@@ -24,7 +26,7 @@
       '';
     };
     devShell.${system} = pkgs.mkShell {
-      nativeBuildInputs = with pkgs; [ mdbook mdbook-mermaid ];
+      inherit nativeBuildInputs;
       shellHook = ''
         mdbook-mermaid install
         mdbook serve --port 3333 --open
