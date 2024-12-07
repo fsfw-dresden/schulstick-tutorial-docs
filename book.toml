@@ -2,7 +2,7 @@
 authors = ["Johannes Lötzsch"]
 language = "de"
 multilingual = false
-src = "src"
+src = "."
 title = "Documentation about creating Tutorials for Lernstick"
 [preprocessor]
 [preprocessor.mermaid]
