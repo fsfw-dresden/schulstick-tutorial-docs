@@ -16,22 +16,24 @@
       mdbook-mermaid
     ];
   in rec {
-    devShells.${system}.ci = pkgs.mkShell {
-      inherit nativeBuildInputs;
-      shellHook = ''
-        mdbook-mermaid install
-        mdbook build
-        touch book/.nojekyll
-        exit
-      '';
-    };
-    devShell.${system} = pkgs.mkShell {
-      inherit nativeBuildInputs;
-      shellHook = ''
-        mdbook-mermaid install
-        mdbook serve --port 3333 --open
-        exit
-      '';
+    devShells.${system} = {
+      ci = pkgs.mkShell {
+        inherit nativeBuildInputs;
+        shellHook = ''
+          mdbook-mermaid install
+          mdbook build
+          touch book/.nojekyll
+          exit
+        '';
+      };
+      default = pkgs.mkShell {
+        inherit nativeBuildInputs;
+        shellHook = ''
+          mdbook-mermaid install
+          mdbook serve --port 3333 --open
+          exit
+        '';
+      };
     };
   };
 }

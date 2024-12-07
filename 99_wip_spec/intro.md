@@ -118,8 +118,8 @@ Vielleicht sollten wir in metadata.yml die Quelle + Lizens des Bildes aufnehmen?
 
 Die bisher betrachteten 3 Dateien sind ausreichend um ein minimales Tutorial zu erstellen.
 
-Wenn du direkt beginnen magst, kannst du gerne direkt im Kapitel [Neue Tutorials erstellen](#Neue Tutorials erstellen) weiterlesen.
-<!-- TODO
+Wenn du direkt beginnen magst, kannst du gerne direkt im Kapitel <!--[Neue Tutorials erstellen](#Neue Tutorials erstellen)--> weiterlesen.
+<!-- TODO Das soll ein relativer Link werden…
 Falls das Portal zwischen internen und externen Links unterscheided, wie können wir hier einen internen Link erzwingen?
 Das sollte möglich (der default?) sein, egal ob auf ein Kapitel in der gleichen Datei oder in einer anderen lection gelinkt wird…
 -->

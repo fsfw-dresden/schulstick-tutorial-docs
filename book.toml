@@ -15,3 +15,7 @@ git-repository-url = "https://github.com/fsfw-dresden/schulstick-tutorial-docs"
 edit-url-template = "https://github.com/fsfw-dresden/schulstick-tutorial-docs/tree/main/{path}"
 additional-js =["mermaid.min.js", "mermaid-init.js"]
 [output.linkcheck]
+warning-policy = "error"
+## Should we check links on the internet? Enabling this option adds a
+## non-negligible performance impact
+follow-web-links = true
