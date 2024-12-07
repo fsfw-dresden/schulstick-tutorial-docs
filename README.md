@@ -33,3 +33,5 @@ flowchart TD
 ```
 
 * Um den Quickstart als Grundlage für die Umsetzung entsprechend umsetzen zu können, Enthällt dieses Repo auch eine Formulierung unserer [Ziele](./01_Ziel/ziel.md) und [Versprechen](./02_Claim/claim.md)…
+
+* Um einheitliche Begriffe (und vielleicht einprägsamme „Markennamen“) zu haben, wird ein [Glossar](80_Glossar/glossar.md) erstellt.
