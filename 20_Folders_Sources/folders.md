@@ -54,11 +54,11 @@ Or they can download courses and corse collections (manually or by using the por
 ```mermaid
 flowchart
     A[course-collection-name] --> B[course.yml]
-    B --> C[preview.png]
-    C --> D[lesson-name]
+    A --> C[preview.png]
+    A --> D[lesson-name]
     D --> E[lesson.yml]
-    E --> F[preview.png]
-    F --> G[content.md]
+    D --> F[preview.png]
+    D --> G[content.md]
 ```
 
 Because we follow a convention over configuration approach, the course folder structure is as follows, but can be reconfigured in the `course.yml` file in order to support different content types or a completely different folder structure.
