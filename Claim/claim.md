@@ -7,3 +7,5 @@
 * „Wir ermöglichen es, dass einfach erstellte Lerninhalte gut mit stabil funktionierender Software verknüpft werden kann.“
 
 * „Unsere Tools erlauben, Lerninhalte einfach mit der erklärten Software interagieren zu lassen.“
+
+* 4 Freiheiten: „Verstehen, Verwenden, Verbessern, Verbreiten“

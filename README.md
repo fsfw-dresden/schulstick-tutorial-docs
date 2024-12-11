@@ -1,9 +1,10 @@
-In diesem Repo entsteht die Dokumentation für das [Schulstick Portal](https://github.com/fsfw-dresden/schulstick-portal)
+In diesem Repo entsteht die Dokumentation für das [Schulstick Portal](https://github.com/fsfw-dresden/schulstick-portal).
+
+Die Dokumention wird automatisch von einer [CI/CD](https://de.wikipedia.org/wiki/CI/CD)-Pipeline gebaut und ist [hier verfügbar](https://fsfw-dresden.github.io/schulstick-tutorial-docs/).
 
 ### Inhalte
 
 * Zunächst wird ein [Quickstart-Tutorial](Quickstart/quickstart.md) erstellt
-  * Es wird bis zum Workshop benötigt ([Issue](https://github.com/fsfw-dresden/schulstick-tutorial-docs/issues/1))
   * Wir wollen den Quickstart so kurz wie möglich halten, aber so hilfreich wie möglich gestalten. Um das ermöglichen zu können, haben wir folgende Überlegungen:
     * Das Portal soll [Convention over configuration](https://en.wikipedia.org/wiki/Convention_over_configuration) umsetzen. Wir wollen minimalen Aufwand von den Tutorialserstellern (nur eine Markdown-Datei) und haben selber die geeigneten Defaults statt der Notwendigkeit zu zusätzlichen Konfigurationen.
     * Der Quickstart bewirbt und Dokumentiert endnutzerfreundlich einen Bestcase der Einfachheit. Er bindet uns gleichzeitig daran, genau nach diesem Anspruch zu Entwickeln.

@@ -1,6 +1,7 @@
 # Summary
 
 * [Über dieses Repo](README.md)
+* [Schulstick](Schulstick/schulstick.md)
 * [Ziele](Ziel/ziel.md)
 * [Claim](Claim/claim.md)
 * [Quickstart](Quickstart/quickstart.md)
