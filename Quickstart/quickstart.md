@@ -30,7 +30,7 @@ Auf der rechten Seite sehen wir zunächst einen kurzen Einführungtext, der die 
 
 Wir wollen jetzt unser erstes LiaScript-Dokument erstellen.
 
-Dafür klicken wir in das schwarze Texteingabefeld und fangen an zu tippen. Als Beispiel verwenden wir folgenes:
+Dafür klicken wir in das **schwarze Texteingabefeld** und fangen an zu tippen. Als Beispiel verwenden wir folgenes:
 
 ```md
 # Mein erster Kurs
@@ -42,7 +42,7 @@ Die erste Zeile beginnt mit dem Zeichen **`#`**. Zeilen die so anfangen werden i
 
 > Wichtig: LiaScript erwartet, dass unser Dokument mindestens eine Überschrift hat. Nur die Inhalte unterhalb der ersten Überschrift werden angezeigt.
 
-Wir drücken jetzt die Tastenkombination *`Strg + s`*. Wenn auf deiner Tastatur keine Taste mit `Strg` beschriftet ist, dann bestimmt mit `Ctrl`.
+Wir drücken jetzt die Tastenkombination **`Strg + s`**. Wenn auf deiner Tastatur keine Taste mit `Strg` beschriftet ist, dann bestimmt mit `Ctrl`.
 
 Sobald wir gleichzeitig die Tasten `Strg` und `s` gedrückt haben, sollte sich die rechte Hälfte des Fensters ändern und so aussehen:
 
@@ -62,7 +62,7 @@ Du kannst dich jetzt hier frei ausprobieren.
 
 Um selbstgeschriebenen Markdown-Dateien als Kurs im Portal auf dem Lernstick verfügbar zu machen, mussen wir die erstellte Datei herunterladen und in einem Ordner ablegen, wo das Portal es erwartet.
 
-In LiaEdit klicken wir oben rechts auf „Menu“ und wählen aus dem Abschnitt „Download to“ den Eintrag „README.md“. Indem wir mit Rechtsklick auf „README.md“ klicken, geht ein Kontextmenü des Browsers auf das uns „Speichern unter“ anbietet.
+In LiaEdit klicken wir oben rechts auf „**Menu**“ und wählen aus dem Abschnitt „**Download to**“ den Eintrag „README.md“. Indem wir mit Rechtsklick auf „README.md“ klicken, geht ein Kontextmenü des Browsers auf das uns „**Speichern unter**“ anbietet.
 
 `Todo` Screenshot
 
