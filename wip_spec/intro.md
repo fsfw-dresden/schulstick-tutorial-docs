@@ -30,12 +30,12 @@ Die folgende Anleitung erklärt alle nötigen Schritte um:
 
 ## Aufbau von Tutorials
 
-Wir sammeln und pflegen Tutorials in einem gemeinsamen [Verzeichnis auf Github](https://github.com/fsfw-dresden/schulstick-portal/tree/main/tutor-next/markdown).
+Wir sammeln und pflegen Tutorials in einem gemeinsamen [Verzeichnis auf Github](https://github.com/fsfw-dresden/learning-portal/tree/main/OER-materials/examples).
 <!-- TODO künftiges Repo/Metaverzeichnis -->
 
 Keine Angst, für keinen der Schritte aus dieser Anleitung ist Wissen über Git notwendig. Um eine einfache Anleitung zu erstellen, müssen nur drei Dateien erstellt und uns zugesendet werden.
 
-Hier ein [einfaches Beispiel](https://github.com/fsfw-dresden/schulstick-portal/tree/main/tutor-next/markdown/schulstick_tutorial/lektion1) eines Tutorials:
+Hier ein [einfaches Beispiel](https://github.com/fsfw-dresden/learning-portal/tree/main/OER-materials/examples/schulstick_tutorial/lektion1) eines Tutorials:
 <!-- TODO Template statt Selbstreferenz -->
 
 Der Ordner enthällt die nötigen 3 Dateien:
@@ -54,7 +54,7 @@ Diese Datei beinhaltet die eigentlichen Inhalte.
 
 Die Datei ist in der Auszeichnungssprache [**Markdown**](https://de.wikipedia.org/wiki/Markdown) geschrieben. 
 
-Wie [unser Beispiel](https://raw.githubusercontent.com/fsfw-dresden/schulstick-portal/refs/heads/main/tutor-next/markdown/schulstick_tutorial/lektion1/intro.md) zeigt, die Datei ein einem leicht lesbaren Textformat (Ausgangsform). Da sie eine maschinenlesbare Struktur hat, kann sie automatisch in eine [schöne Zielform](https://github.com/fsfw-dresden/schulstick-portal/tree/main/tutor-next/markdown/schulstick_tutorial/lektion1/intro.md) übersetzt werden.
+Wie [unser Beispiel](https://raw.githubusercontent.com/fsfw-dresden/learning-portal/refs/heads/main/OER-materials/examples/schulstick_tutorial/lektion1/intro.md) zeigt, die Datei ein einem leicht lesbaren Textformat (Ausgangsform). Da sie eine maschinenlesbare Struktur hat, kann sie automatisch in eine [schöne Zielform](https://github.com/fsfw-dresden/learning-portal/blob/main/OER-materials/examples/schulstick_tutorial/lektion1/intro.md) übersetzt werden.
 
 Markdown zu lernen ist einfach und geht schnell. Die wenigen nötigen Auszeichnugen werden [hier beschrieben](https://de.wikipedia.org/wiki/Markdown#Auszeichnungsbeispiele).
 
@@ -73,7 +73,7 @@ Es gibt einen [Online-Editor](https://liascript.github.io/LiveEditor/?/show/file
 
 Die in Markdown/LiaScript geschriebene Datei (`intro.md`) ist ausreichend um eine Anleitung unabhängig vom Schulscript zu schreiben.
 
-[`metadata.yml`](https://raw.githubusercontent.com/fsfw-dresden/schulstick-portal/refs/heads/main/tutor-next/markdown/schulstick_tutorial/lektion1/metadata.yml) enthällt alle [Metadaten](https://de.wikipedia.org/wiki/Metadaten), welche vom Schulstick-Portal benötigt werden, um zusätzliche Funktionen zu ermöglichen.
+[`lessen.yml`](https://github.com/fsfw-dresden/learning-portal/blob/main/OER-materials/examples/schulstick_tutorial/lektion1/lesson.yml) enthällt alle [Metadaten](https://de.wikipedia.org/wiki/Metadaten), welche vom Schulstick-Portal benötigt werden, um zusätzliche Funktionen zu ermöglichen. Sie wird künftig optional sein.
 
 Wir werden in einem späteren Abschnitt beschreiben, wie die Datei einfach erstellt/angepasst/getestet werden kann und welche Werte in ihr erlaubt sind.
 <!-- TODO

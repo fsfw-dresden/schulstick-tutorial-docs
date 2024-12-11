@@ -1,6 +1,6 @@
 ## Vocabulary
 
-@see [Glossar](../80_Glossar/glossar.md)
+@see [Glossar](../Glossar/glossar.md)
 
 We reintroduce some terms from the glossar here, to make them more visible and help non german speakers to understand the structure.
 

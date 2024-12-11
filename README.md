@@ -2,7 +2,7 @@ In diesem Repo entsteht die Dokumentation für das [Schulstick Portal](https://g
 
 ### Inhalte
 
-* Zunächst wird ein [Quickstart-Tutorial](10_Quickstart/quickstart.md) erstellt
+* Zunächst wird ein [Quickstart-Tutorial](Quickstart/quickstart.md) erstellt
   * Es wird bis zum Workshop benötigt ([Issue](https://github.com/fsfw-dresden/schulstick-tutorial-docs/issues/1))
   * Wir wollen den Quickstart so kurz wie möglich halten, aber so hilfreich wie möglich gestalten. Um das ermöglichen zu können, haben wir folgende Überlegungen:
     * Das Portal soll [Convention over configuration](https://en.wikipedia.org/wiki/Convention_over_configuration) umsetzen. Wir wollen minimalen Aufwand von den Tutorialserstellern (nur eine Markdown-Datei) und haben selber die geeigneten Defaults statt der Notwendigkeit zu zusätzlichen Konfigurationen.
@@ -32,6 +32,6 @@ flowchart TD
   Claim --> Quickstart([Quickstart])
 ```
 
-* Um den Quickstart als Grundlage für die Umsetzung entsprechend umsetzen zu können, Enthällt dieses Repo auch eine Formulierung unserer [Ziele](./01_Ziel/ziel.md) und [Versprechen](./02_Claim/claim.md)…
+* Um den Quickstart als Grundlage für die Umsetzung entsprechend umsetzen zu können, Enthällt dieses Repo auch eine Formulierung unserer [Ziele](./Ziel/ziel.md) und [Versprechen](./Claim/claim.md)…
 
-* Um einheitliche Begriffe (und vielleicht einprägsamme „Markennamen“) zu haben, wird ein [Glossar](80_Glossar/glossar.md) erstellt.
+* Um einheitliche Begriffe (und vielleicht einprägsamme „Markennamen“) zu haben, wird ein [Glossar](Glossar/glossar.md) erstellt.
