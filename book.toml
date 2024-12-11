@@ -18,4 +18,4 @@ additional-js =["mermaid.min.js", "mermaid-init.js"]
 warning-policy = "error"
 ## Should we check links on the internet? Enabling this option adds a
 ## non-negligible performance impact
-follow-web-links = true
+#follow-web-links = true

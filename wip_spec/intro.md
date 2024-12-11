@@ -52,22 +52,9 @@ Für fortgeschrittene Anwendungsfälle kann ein Tutorial noch weitere Dateien en
 
 Diese Datei beinhaltet die eigentlichen Inhalte.
 
-Die Datei ist in der Auszeichnungssprache [**Markdown**](https://de.wikipedia.org/wiki/Markdown) geschrieben. 
-
-Wie [unser Beispiel](https://raw.githubusercontent.com/fsfw-dresden/learning-portal/refs/heads/main/OER-materials/examples/schulstick_tutorial/lektion1/intro.md) zeigt, die Datei ein einem leicht lesbaren Textformat (Ausgangsform). Da sie eine maschinenlesbare Struktur hat, kann sie automatisch in eine [schöne Zielform](https://github.com/fsfw-dresden/learning-portal/blob/main/OER-materials/examples/schulstick_tutorial/lektion1/intro.md) übersetzt werden.
-
-Markdown zu lernen ist einfach und geht schnell. Die wenigen nötigen Auszeichnugen werden [hier beschrieben](https://de.wikipedia.org/wiki/Markdown#Auszeichnungsbeispiele).
+Die Datei ist in der Auszeichnungssprache [**Markdown**](../Markdown/markdown.md) geschrieben. 
 
 #### LiaScript
-
-Genau genommen wird für die Schulstick-Tutorials eine Markdownerweiterung mit dem Name [LiaScript](https://liascript.github.io/) verwendet.
-
-Zum erstellen unseres ersten Tutorials reicht es vollkommen aus, einfaches Markdown ohne die zusätzlichen Möglichkeiten von LiaScript zu schreiben.
-
-Wer in seinen Tutorials (später) LiaScript nutzen möchte, kann hier [Beispiele](https://liascript.github.io/LiveEditor/examples.html) finden.
-
-Es gibt einen [Online-Editor](https://liascript.github.io/LiveEditor/?/show/file/https://raw.githubusercontent.com/LiaScript/docs/master/README.md), indem nebeneinander die Ausgangsform geschrieben und die Zielform gesehen werden kann. Das verlinkte Beispiel öffnet die offizielle LiaScript-Dokumentation, welche selbst in LiaScript geschrieben ist.
-
 
 ### metadata.yml
 
