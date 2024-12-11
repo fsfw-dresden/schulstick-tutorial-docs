@@ -19,7 +19,7 @@ Wir empfehlen den Editor LiaEdit.
 
 Es sollte sich ein Browserfenster öffnen, dass etwa so aussieht:
 
-`Todo` Screenshot
+![LiaEdit](liaedit.png)
 
 Auf der linken Seite ist eine schwarzes Texteingabefeld. Dort hinein werden wir LiaScript oder anderes Markdown schreiben.
 
@@ -46,7 +46,7 @@ Wir drücken jetzt die Tastenkombination **`Strg + s`**. Wenn auf deiner Tastatu
 
 Sobald wir gleichzeitig die Tasten `Strg` und `s` gedrückt haben, sollte sich die rechte Hälfte des Fensters ändern und so aussehen:
 
-`Todo` Screenshot
+![Hallo Welt Beispiel](hallo_welt.png)
 
 
 ### eigene Inhalte
@@ -64,16 +64,18 @@ Um selbstgeschriebenen Markdown-Dateien als Kurs im Portal auf dem Lernstick ver
 
 In LiaEdit klicken wir oben rechts auf „**Menu**“ und wählen aus dem Abschnitt „**Download to**“ den Eintrag „README.md“. Indem wir mit Rechtsklick auf „README.md“ klicken, geht ein Kontextmenü des Browsers auf das uns „**Speichern unter**“ anbietet.
 
-`Todo` Screenshot
+![Download](download_md.png)
 
 Wir legen den neuen Ordner `~/.local/share/learning-portal/courses/draft/mein_quckickstart_tutorial/erste_lektion` an und speichern darin die Markdown-Datei. Der Dateiname ist egal, muss aber auf „.md“ enden.
+
+![Ordnerstruktur](ordner_struktur.png)
 
 
 ### Portal neu starten
 
 Wir können das Portal aus dem Startmenü auswählen und sollten unseren neuen Kurs sehen.
 
-`Todo` Screenshot
+![Lernportal](lernportal_icon.png)
 
 Fertig :)
 
