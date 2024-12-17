@@ -6,16 +6,16 @@ title: Bereitstellen neuer Tutorials für den Schulstick
 <!-- TODO: (Warum) ist metadata.yml (in späterer zukunft) erforderlich/sinnvoll, statt die metadaten direkt in den markdown-metadaten zu speichern? -->
 
 <!-- TODO: gibt es ein glossar für das wording das wir im kontext des schulsticks verwenden?
-Antwort: Ja, jetzt gibt es ihn: https://fsfw-dresden.github.io/schulstick-tutorial-docs/80_Glossar/glossar.html
+Antwort: Ja, jetzt gibt es ihn: https://fsfw-dresden.github.io/schulstick-tutorial-docs/80_Glossar/glossar.html  (funktioniert derzeit nicht)
 -->
 
 # Schulstick Tutorials
 
-Der [**Schulstick**](https://schulstick.org/) ist eine [freie](https://de.wikipedia.org/wiki/Free/Libre_Open_Source_Software) Lern-, und Arbeitsplattform für lernende jeden Alters. Für unterschiedliche Zielgruppen existieren [verschiedene Varianten](https://github.com/fsfw-dresden/usb-live-linux/tree/main/variants.build). <!-- TODO --> Mit dem Wissen aus der folgenden Anleitung ist es Lehrkräften möglich, für die eigenen Bedürfnisse angepasste Varianten des Schulsticks zu erstellen.
+Der [**Schulstick**](https://schulstick.org/) ist eine [freie](https://de.wikipedia.org/wiki/Free/Libre_Open_Source_Software) Lern-, Spiel- und Arbeitsplattform für Lernende jeden Alters. Für unterschiedliche Zielgruppen existieren [verschiedene Varianten](https://github.com/fsfw-dresden/usb-live-linux/tree/main/variants.build).  <!-- TODO --> Im Weiteren geht es um die Variante Schulstick. Alle weiteren Varianten enthalten alles, was der Schulstick enthält. <!-- TODO Mit dem Wissen aus der folgenden Anleitung ist es Lehrkräften möglich, für die eigenen Bedürfnisse angepasste Varianten des Schulsticks zu erstellen.--> 
 
 Ein besonderer Wert des Schulsticks besteht darin, eine einheitliche **Plattform** für eine Vielzahl speziell angepasster und getesteter **Tutorials** zu bieten. Ziel ist es Nutzern (Schülern, Lehrkräften und Autodidakten) einen besonders zuverlässigen, niedrigschwelligen, frustfreien und effizienten Einstieg in neue Themen, Technologien und Softwarelösungen zu ermöglichen.
 
-Lehrninhalte für den Stick sind [freies Wissen](https://fsfw-dresden.de/themen.html) und werden durch eine **Community** gemeisam erstellt und gepflegt. In der [**FAQ**](#FAQ) werden Fragen beantwortet, wie jeder der das Projekt unterstützen mag, unkompliziert **mithelfen** kann.
+Lerninhalte für den Stick sind [freies Wissen](https://fsfw-dresden.de/themen.html) und werden durch eine **Community** gemeinsam erstellt und gepflegt. In der [**FAQ**](#FAQ) werden Fragen beantwortet, wie alle, die das Projekt unterstützen wollen, unkompliziert **mithelfen** können.
 
 
 Die folgende Anleitung erklärt alle nötigen Schritte um:
@@ -23,7 +23,7 @@ Die folgende Anleitung erklärt alle nötigen Schritte um:
 1. Zu verstehen wie die Tutorials aufgebaut sind
 2. Ein neues Tutorial anzulegen
 3. Tutorials im Lernportal auf dem Schulstick zu testen
-4. Inhalte zu veröffentlichen
+4. Inhalte (z.B. Lektionen oder ganze Kurse) zu veröffentlichen
 
 <!-- Kurzvorstellung des FSFW-Stick-Projekts https://youtu.be/9XeJtgMcmKk -->
 
@@ -38,7 +38,7 @@ Keine Angst, für keinen der Schritte aus dieser Anleitung ist Wissen über Git 
 Hier ein [einfaches Beispiel](https://github.com/fsfw-dresden/learning-portal/tree/main/OER-materials/examples/schulstick_tutorial/lektion1) eines Tutorials:
 <!-- TODO Template statt Selbstreferenz -->
 
-Der Ordner enthällt die nötigen 3 Dateien:
+Der Ordner enthält die nötigen 3 Dateien:
 * intro.md
 * metadata.yml
 * preview.png
@@ -46,7 +46,6 @@ Der Ordner enthällt die nötigen 3 Dateien:
 Die folgenden Abschnitte erklären für jede der Dateien, was sie beinhalten, wie sie erstellt und getestet werden können.
 
 Für fortgeschrittene Anwendungsfälle kann ein Tutorial noch weitere Dateien enthalten. Diese werden im folgenden mit erklärt; da die Dateien aber nicht zwingend benötigt werden, können die zugehörigen Kapitel aber für das Erstellen des ersten Tutorials gerne übersprungen werden.
-
 
 ### intro.md
 
@@ -58,9 +57,9 @@ Die Datei ist in der Auszeichnungssprache [**Markdown**](../Markdown/markdown.md
 
 ### metadata.yml
 
-Die in Markdown/LiaScript geschriebene Datei (`intro.md`) ist ausreichend um eine Anleitung unabhängig vom Schulscript zu schreiben.
+Die in Markdown/LiaScript geschriebene Datei (`intro.md`) ist ausreichend um eine Anleitung unabhängig vom Schulscript <!-- Was ist mit Schulscript hier gemeint?--> zu schreiben.
 
-[`lessen.yml`](https://github.com/fsfw-dresden/learning-portal/blob/main/OER-materials/examples/schulstick_tutorial/lektion1/lesson.yml) enthällt alle [Metadaten](https://de.wikipedia.org/wiki/Metadaten), welche vom Schulstick-Portal benötigt werden, um zusätzliche Funktionen zu ermöglichen. Sie wird künftig optional sein.
+[`lesson.yml`](https://github.com/fsfw-dresden/learning-portal/blob/main/OER-materials/examples/schulstick_tutorial/lektion1/lesson.yml) enthält alle [Metadaten](https://de.wikipedia.org/wiki/Metadaten) welche vom Schulstick-Portal benötigt werden, um zusätzliche Funktionen zu ermöglichen. Sie wird künftig optional sein.
 
 Wir werden in einem späteren Abschnitt beschreiben, wie die Datei einfach erstellt/angepasst/getestet werden kann und welche Werte in ihr erlaubt sind.
 <!-- TODO
@@ -76,7 +75,7 @@ Gibt es eine Maximallänge (oder Empfehlungen) für die Länge des Titels?
 Schema!
 -->
 
-Nunächst ist für uns wichtig zu wissen, dass die Datei `metadata.yml`, welche für jedes Tutorial vorhanden sein muss, folgende beiden Zeilen enthällt:
+Zunächst ist es für uns wichtig zu wissen, dass die Datei `metadata.yml`, welche für jedes Tutorial vorhanden sein muss, folgende beiden Zeilen enthält:
 ```yml
 markdownFile: "intro.md"
 previewImage: "preview.png"
@@ -90,13 +89,13 @@ Der Wert hinter dem Schlüsselwort `markdownFile` benennt die Markdown/LiaScript
 Das Schulstick-Portal zeigt in der Liste der vorhandenen Tutorials jeweils ein Vorschaubild. In unserem Fall `preview.png`. Die Datei muss unter dem Name existieren, wie sie in `metadata.yml` unter dem Schlüsselwort `previewImage` benannt wurde.
 <!-- TODO
 Was sind gültige Werte? Relative Pfade? URLs? Anderes?
-Gibt es einen Default? Oder wird bei fehlendem Eintrag ein Brauchbarer Fehler angezeigt?
+Gibt es einen Default? Oder wird bei fehlendem Eintrag ein brauchbarer Fehler angezeigt?
 -->
 
-Bitte suche für dein Tutorial ein geeignetes Bild heraus oder erzeuge ein eigenes. Wenn ein vorhandenes Bild verwendet wird, bitte beachte, dass es unter einer freien Lizens steht.
+Bitte suche für dein Tutorial ein geeignetes Bild heraus oder erzeuge ein eigenes. Wenn ein vorhandenes Bild verwendet wird, bitte beachte, dass es unter einer freien Lizenz steht.
 
 <!-- TODO
-Vielleicht sollten wir in metadata.yml die Quelle + Lizens des Bildes aufnehmen?
+Vielleicht sollten wir in metadata.yml die Quelle + Lizenz des Bildes aufnehmen?
 -->
 
 ### optionale Erweiterungen
@@ -140,8 +139,8 @@ genau erklärung des verhaltens
 -->
 
 In einigen Fällen ist jedoch gewünscht, dem Ersteller des Tutorials mehr Kontrolle über erforderliche Umgebungen zu ermöglichen, als ein bereits vorinstalliertes Softwarepaket in seiner Originalversion zu starten. Manche Anwendungen müssen mit bestimmten Plugins, Konfigurationsdateien, sonstigen Argumenten oder in einer bestimmten Version vorhanden sein.
-Ein großer Mehrwert des bereitstellens der Tutorials auf dem Schulstick ist die Möglichkeit, dass der Ersteller der Lerninhalte genau die später vom Nutzer verwendete Version der Software testen und für die entsprechende Version korrekte Screenshots einbinden kann.
-Wenn Software über die Zeit aktuallisiert wird, kann nicht vom Kernteam des Schulsticks erwartet werden, dass immer alle Tutorials im Detail überprüft werden, ob in den Anleitungen Anpassungen nötig geworden sind. Daher ist es wünschenswert, das Wissen der Inhalteersteller zu nutzen, um zu gewährleisten, dass Anwendungen und Anleitungen aufeinander abgestimmt sind.
+Ein großer Mehrwert des Bereitstellens der Tutorials auf dem Schulstick ist die Möglichkeit, dass der Ersteller der Lerninhalte genau die später vom Nutzer verwendete Version der Software testen und für die entsprechende Version korrekte Screenshots einbinden kann.
+Wenn Software über die Zeit aktualisiert wird, kann nicht vom Kernteam des Schulsticks erwartet werden, dass immer alle Tutorials im Detail überprüft werden, ob in den Anleitungen Anpassungen nötig geworden sind. Daher ist es wünschenswert, das Wissen der Inhalteersteller zu nutzen, um zu gewährleisten, dass Anwendungen und Anleitungen aufeinander abgestimmt sind.
 
 <!-- TODO Langfristig könnte es hilfreich sein, wenn eine Anzahl generischer Tests implementiert werden, welche über die Metadaten deklarativ konfiguriert werden können (z.B. Versionstest über Semantic Versioning). Sollte aber lieber gründlich durchdacht und sauber implementiert werden… -->
 
@@ -149,7 +148,7 @@ Wenn Software über die Zeit aktuallisiert wird, kann nicht vom Kernteam des Sch
 
 <!-- TODO Wollen wir die Skripte der übersicht halber in einem unterordner `scripts` ablegen? Das würde auch reuse durch einen einzelnen symlink erlauben. -->
 
-Entwicklern von Tutorials, die sich etwas besser mit Linux auskennen, können im Ordner ihrer Lektionen shell-Skripte ablegen, und bekommen folgende Möglichkeiten sich ins System „einzuhaken“:
+Entwickelnde von Tutorials, die sich etwas besser mit Linux auskennen, können im Ordner ihrer Lektionen shell-Skripte ablegen, und bekommen folgende Möglichkeiten sich ins System „einzuhaken“:
 
 * `./scripts/run.sh`
 * `./scripts/run_test.sh`
@@ -202,7 +201,7 @@ Ausgabe und Return-Codes sollten sich genau wie bei `run_test.sh` verhalten.
 
 ###### Sicherheitsüberlegungen
 
-Dies Skripte führen vom Tutorialersteller generierten und von der Community gereviewten Code auf dem System des Nutzers aus. Skripte und ihre Änderungen sollten daher von der Community genauso gründlich wie der Schulstick selbst überprüft werden. Für Tutorials mit Skripten wird ein Review-Prozess empfohlen, bei dem vor dem Mergen, mindestens ein Approval eines anderen Vertrauten Nutzers erteilt wurde.
+Diese Skripte führen vom Tutorialersteller generierten und von der Community gereviewten Code auf dem System des Nutzers aus. Skripte und ihre Änderungen sollten daher von der Community genauso gründlich wie der Schulstick selbst überprüft werden. Für Tutorials mit Skripten wird ein Review-Prozess empfohlen, bei dem vor dem Mergen, mindestens ein Approval eines anderen vertrauten Nutzers erteilt wurde.
 
 `run.sh` und `run_test.sh` laufen mit Nutzerprivilegien. Das Schadenspotential wird ähnlich eingeschätzt, wie jenes, welches Ersteller von Tutorials mittels bösartigen Inhalten in ihren Anleitungen verursachen können.
 Das erlauben wohl definierter und überprüfter Hooks kann einen Sicherheitsvorteil bieten, wenn sie einen Beitrag leisten, dass Tutorials höheren Standarts genügen müssen. Der Mechanismus der Hooks sollte genutzt werden, um dubiose Installationsanleitungen in den Tutorials konsequent zu verbieten. Dies betrifft insbesondere das Laden von Code aus Drittquellen.
