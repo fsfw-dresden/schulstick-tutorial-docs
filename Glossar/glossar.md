@@ -6,8 +6,8 @@
 
 ### ~~Lernstick~~
 
-* sagt aus was es ist
-* aber ist [etabliere Marke aus der Schweiz](https://www.bfh.ch/de/forschung/forschungsbereiche/lernstick/). Wir wollen keine Konkurenz sein und Konflikte vermeiden.
+* sagt aus, was es ist
+* aber ist [etablierte Marke aus der Schweiz](https://www.bfh.ch/de/forschung/forschungsbereiche/lernstick/). Wir wollen keine Konkurenz sein und Konflikte vermeiden.
 
 ## Kurssammlung
 
@@ -16,17 +16,11 @@
 
 ## „Kurse“
 
-* Begriff auf den wir uns geeinigt haben.
-* Begriff, wie ihn auch Liascript verwendet
-* ein Kurs besteht aus ein oder mehreren Lektionen
-
-### „Tutorial“, „Lerninhalte“, „Lernpakete“, "Lektionen"
-
-* Ist als Synonym erlaubt
-* Aber als bei Verwendung immer klar machen, dass es sich um „Kurse“ handelt
+* ein Kurs besteht aus einer oder mehreren Lektionen
+* der Begriff wird so auch von Liascript verwendet
 
 
-## „Lektionen“
+## „Lektionen“ (engl. units)
 
 * Sind die Bestandteile von „Kursen”
 
@@ -35,3 +29,9 @@
 ### Im Code derzeit „Unit“ genannt
 
 * sehr mehrdeutiger Name. Aber was wäre besser?
+
+
+### „Tutorial“, „Lerninhalte“, „Lernpakete“, "Lektionen"
+
+* Ist als Synonym erlaubt
+* Aber als bei Verwendung immer klar machen, dass es sich um „Kurse“ handelt
