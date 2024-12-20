@@ -1,8 +1,17 @@
-In diesem Repo entsteht die Dokumentation für das [Schulstick Portal](https://github.com/fsfw-dresden/schulstick-portal).
+### [TL;DR](https://en.wikipedia.org/wiki/TL;DR)
+
+Hier findest du Dokumentation zum
+* **[Schulstick](Schulstick/schulstick.md)** (Quellen, Download, Installation, Booten, Starten per VM)
+* und ein **[Quickstart-Tutorial](Quickstart/quickstart.md)**, dass erklärt, wie Lerninhalte für den Schulstick erzeugt werden können.
+
+
+### Über diese Dokumentation
+
+In diesem [Repo](https://de.wikipedia.org/wiki/Repository#Software-Repository) entsteht die Dokumentation für das [Schulstick Portal](https://github.com/fsfw-dresden/schulstick-portal).
 
 Die Dokumention wird automatisch von einer [CI/CD](https://de.wikipedia.org/wiki/CI/CD)-Pipeline gebaut und ist [hier verfügbar](https://fsfw-dresden.github.io/schulstick-tutorial-docs/).
 
-### Inhalte
+### Inhalte (in Arbeit)
 
 * Zunächst wird ein [Quickstart-Tutorial](Quickstart/quickstart.md) erstellt
   * Wir wollen den Quickstart so kurz wie möglich halten, aber so hilfreich wie möglich gestalten. Um das ermöglichen zu können, haben wir folgende Überlegungen:
